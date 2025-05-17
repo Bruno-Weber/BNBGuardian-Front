@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Shield, CircleAlert, CircleCheck, Lock, Scan, Radar, Atom, CircuitBoard, Hexagon, Code } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { InteractiveRobotSpline } from '@/components/ui/interactive-3d-robot';
 
 type RiskLevel = 'low' | 'medium' | 'high' | null;
 
@@ -19,6 +19,9 @@ const TokenScanner = () => {
   const [scanPhase, setScanPhase] = useState('');
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; speed: number; delay: number }[]>([]);
   const [codeLines, setCodeLines] = useState<string[]>([]);
+  
+  // Spline robot scene URL
+  const ROBOT_SCENE_URL = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
   // Gerar partículas para animação futurista
   useEffect(() => {
@@ -275,192 +278,56 @@ const TokenScanner = () => {
                 )}
               </div>
               
-              {/* Lado direito - Visualização futurista */}
-              <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px] scanner-idle overflow-hidden">
-                {/* Grade hexagonal de fundo */}
+              {/* Lado direito - Robô interativo 3D */}
+              <div className="relative bg-bscdark-dark min-h-[400px] overflow-hidden">
+                {/* Fundo com grade hexagonal */}
                 <div className="hexagon-grid absolute top-0 left-0 w-full h-full opacity-30"></div>
                 
-                {/* Partículas flutuantes */}
-                <div className="floating-particles">
-                  {!isScanning && !scanComplete && particles.map(particle => (
-                    <div 
-                      key={particle.id}
-                      className="particle absolute"
-                      style={{
-                        width: `${particle.size}px`,
-                        height: `${particle.size}px`,
-                        left: `${particle.x}%`,
-                        top: `${particle.y}%`,
-                        opacity: 0.7,
-                        backgroundColor: 'rgba(243, 186, 47, 0.5)',
-                        animation: `glow 3s infinite alternate, floating ${particle.speed}s infinite alternate ease-in-out`,
-                        animationDelay: `${particle.delay}s`,
-                        transform: 'translateY(0px)',
-                      }}
-                    />
-                  ))}
+                {/* Robô 3D interativo */}
+                <div className="absolute inset-0 z-10">
+                  <InteractiveRobotSpline 
+                    scene={ROBOT_SCENE_URL}
+                    className="w-full h-full"
+                  />
                 </div>
                 
-                {/* Estado de visualização padrão - FUTURISTA */}
-                {!isScanning && !scanComplete && (
-                  <div className="text-center z-10 relative">
-                    {/* Anéis orbitais */}
-                    <div className="absolute left-1/2 top-1/2 w-40 h-40 -ml-20 -mt-20">
-                      <div className="orbital-ring absolute w-full h-full"></div>
-                      <div className="orbital-ring absolute w-[120%] h-[120%] -left-[10%] -top-[10%]" style={{animationDuration: '20s', animationDirection: 'reverse'}}></div>
-                      <div className="orbital-ring absolute w-[140%] h-[140%] -left-[20%] -top-[20%]" style={{animationDuration: '25s'}}></div>
-                    </div>
-                    
-                    {/* Hexágono principal */}
-                    <div className="hexagon bg-bscdark-lighter w-32 h-32 mx-auto mb-6 flex items-center justify-center relative hexagon-pulse">
-                      <div className="absolute inset-0 hexagon bg-bscamber/10 glow-effect"></div>
-                      <div className="absolute inset-0 hexagon bg-gradient-to-br from-bscamber/20 to-transparent"></div>
-                      
-                      {/* Ícone central */}
-                      <div className="relative z-10">
-                        <CircuitBoard className="w-12 h-12 text-bscamber glow-effect" />
-                      </div>
-                      
-                      {/* Raio radar */}
-                      <div className="radar-beam"></div>
-                    </div>
-                    
-                    {/* Elemento de rotação em torno do hexágono */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 rotation-anim">
-                      <div className="absolute top-0 left-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                      <div className="absolute bottom-0 left-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                      <div className="absolute left-0 top-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                      <div className="absolute right-0 top-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                    </div>
-                    
-                    {/* Streams de dados virtuais */}
-                    <div className="absolute left-1/4 top-10 h-64 overflow-hidden w-16 opacity-50">
-                      <div className="data-stream">
-                        01010111 10100010 00101010 01010111 10100010 00101010 01010111 10100010 00101010
-                        10101010 01010101 10101010 01010101 10101010 01010101 10101010 01010101
-                      </div>
-                    </div>
-                    
-                    <div className="absolute right-1/4 bottom-10 h-64 overflow-hidden w-16 opacity-50">
-                      <div className="data-stream" style={{animationDelay: '-5s'}}>
-                        10100010 00101010 01010111 10100010 00101010 01010111 10100010 00101010 01010111
-                        01010101 10101010 01010101 10101010 01010101 10101010 01010101 10101010
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-xl font-medium mb-2 text-bscamber gradient-text">Scanner Avançado</h3>
-                    <p className="text-gray-300 max-w-xs relative z-10">
-                      Insira um endereço de token para iniciar a análise de segurança em tempo real
-                    </p>
-                    
-                    {/* Efeitos de luz */}
-                    <div className="absolute top-0 left-1/2 w-40 h-96 -ml-20 bg-bscamber/5 rounded-full blur-3xl"></div>
-                  </div>
-                )}
-                
-                {/* Estado de escaneamento - ENHANCED FUTURISTIC VERSION */}
+                {/* Overlay para estados diferentes */}
                 {isScanning && (
-                  <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
-                    {/* Código de contrato inteligente com efeito de escaneamento */}
-                    <div className="absolute inset-0 overflow-hidden">
-                      <div className="relative h-full w-full flex items-center justify-center">
-                        <div className="absolute z-10 w-[120%] h-[120%] bg-gradient-radial from-bscamber/10 to-transparent opacity-50 animate-pulse-slow"></div>
-                        
-                        {/* Código do contrato espelhado em 3D */}
-                        <div className="perspective-container w-full h-full relative overflow-hidden flex items-center justify-center">
-                          {/* Código do lado esquerdo */}
-                          <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden pl-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(30deg)'}}>
-                            <pre className="text-xs text-bscamber/80 font-mono">
-                              {codeLines.slice(0, codeLines.length / 2).map((line, idx) => (
-                                <div 
-                                  key={idx} 
-                                  className="whitespace-pre opacity-80 transition-all duration-300"
-                                  style={{
-                                    transform: `translateX(${Math.sin(idx * 0.2) * 5}px)`,
-                                  }}
-                                >
-                                  {line}
-                                </div>
-                              ))}
-                            </pre>
-                          </div>
-                          
-                          {/* Código do lado direito */}
-                          <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden pr-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(-30deg)'}}>
-                            <pre className="text-xs text-bscamber/80 font-mono text-right">
-                              {codeLines.slice(codeLines.length / 2).map((line, idx) => (
-                                <div 
-                                  key={idx} 
-                                  className="whitespace-pre opacity-80 transition-all duration-300"
-                                  style={{
-                                    transform: `translateX(${Math.sin(idx * 0.2) * -5}px)`,
-                                  }}
-                                >
-                                  {line}
-                                </div>
-                              ))}
-                            </pre>
-                          </div>
-                          
-                          {/* Scanner central holográfico */}
-                          <div className="relative z-20">
-                            <div className="hexagon bg-bscdark-darker/80 w-48 h-48 backdrop-blur-md relative glow-effect">
-                              {/* Borda animada do hexágono */}
-                              <div className="absolute inset-0 hexagon border-2 border-bscamber/50 opacity-80" style={{
-                                filter: 'drop-shadow(0 0 8px rgba(243, 186, 47, 0.8))'
-                              }}></div>
-                              
-                              {/* Conteúdo do hexágono */}
-                              <div className="absolute inset-0 hexagon flex flex-col items-center justify-center p-4">
-                                <Radar className="w-16 h-16 text-bscamber animate-pulse-slow" />
-                                
-                                {/* Linhas de escaneamento horizontal */}
-                                <div className="absolute w-full h-full overflow-hidden">
-                                  <div className="absolute h-1 bg-gradient-to-r from-transparent via-bscamber to-transparent w-full opacity-80"
-                                       style={{
-                                         top: `${(scanProgress / 100) * 100}%`,
-                                         animation: 'scan-line 1.5s ease-in-out infinite'
-                                       }}></div>
-                                </div>
-                                
-                                {/* Grade digital com linhas cruzadas */}
-                                <div className="absolute w-full h-full grid grid-cols-6 opacity-40">
-                                  {Array.from({length: 6}).map((_, idx) => (
-                                    <div key={idx} className="h-full border-r border-bscamber/20"></div>
-                                  ))}
-                                </div>
-                                <div className="absolute w-full h-full grid grid-rows-6 opacity-40">
-                                  {Array.from({length: 6}).map((_, idx) => (
-                                    <div key={idx} className="w-full border-b border-bscamber/20"></div>
-                                  ))}
-                                </div>
-                                
-                                {/* Status de escaneamento */}
-                                <div className="mt-4 text-center">
-                                  <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
-                                  <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% completo</div>
-                                  <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden">
-                                    <div 
-                                      className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
-                                      style={{ width: `${scanProgress}%` }}
-                                    ></div>
-                                  </div>
-                                </div>
-                              </div>
+                  <div className="absolute inset-0 z-20 bg-bscdark-dark/50 backdrop-blur-sm">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      {/* Código de contrato com efeito de escaneamento */}
+                      <div className="code-scan-highlight w-full max-w-md bg-bscdark-darker/80 p-4 mb-4 rounded-md border border-bscamber/30">
+                        <pre className="text-xs text-bscamber/80 font-mono h-32 overflow-hidden">
+                          {codeLines.slice(0, 10).map((line, idx) => (
+                            <div 
+                              key={idx} 
+                              className="whitespace-pre opacity-80"
+                            >
+                              {line}
                             </div>
-                          </div>
+                          ))}
+                        </pre>
+                      </div>
+                      
+                      {/* Status de escaneamento */}
+                      <div className="text-center">
+                        <div className="text-bscamber text-xl font-medium mb-2">{scanPhase}</div>
+                        <div className="text-sm text-bscamber/70 mb-3">{scanProgress}% completo</div>
+                        <div className="h-1.5 w-64 bg-bscdark-lighter rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
+                            style={{ width: `${scanProgress}%` }}
+                          ></div>
                         </div>
                       </div>
-                    </div>
-                    
-                    {/* Raios de escaneamento */}
-                    <div className="absolute inset-0 overflow-hidden">
+                      
+                      {/* Linhas de escaneamento */}
                       {Array.from({length: 3}).map((_, idx) => (
                         <div 
                           key={idx}
                           className="absolute w-full h-1 bg-gradient-to-r from-transparent via-bscamber/60 to-transparent"
                           style={{
-                            top: `${15 + idx * 35}%`,
+                            top: `${20 + idx * 30}%`,
                             animation: `scan-line ${1 + idx * 0.5}s ease-in-out infinite`,
                             animationDelay: `${idx * 0.2}s`,
                             opacity: 0.7
@@ -468,51 +335,42 @@ const TokenScanner = () => {
                         ></div>
                       ))}
                     </div>
-                    
-                    {/* Partículas flutuantes durante o escaneamento */}
-                    <div className="absolute inset-0">
-                      {Array.from({length: 8}).map((_, idx) => (
-                        <div
-                          key={idx}
-                          className="absolute w-1 h-1 rounded-full bg-bscamber"
-                          style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            opacity: 0.6 + Math.random() * 0.4,
-                            animation: `glow 2s infinite alternate, floating ${1 + Math.random() * 3}s infinite alternate ease-in-out`,
-                            animationDelay: `${Math.random() * 2}s`,
-                          }}
-                        ></div>
-                      ))}
-                    </div>
-                    
-                    {/* Efeitos de luz radial */}
-                    <div className="absolute inset-0 bg-gradient-radial from-bscamber/5 via-transparent to-transparent"></div>
                   </div>
                 )}
                 
-                {/* Estado de resultados - Mantém a funcionalidade atual */}
+                {/* Overlay para resultado completo */}
                 {scanComplete && (
-                  <div className="z-10 w-full max-w-md text-center">
-                    <div className="hexagon bg-bscdark-lighter w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-                      {riskLevel === 'low' && <Shield className="w-10 h-10 text-risk-low" />}
-                      {riskLevel === 'medium' && <Shield className="w-10 h-10 text-risk-medium" />}
-                      {riskLevel === 'high' && <Shield className="w-10 h-10 text-risk-high" />}
-                    </div>
-                    <h3 className="text-xl font-medium mb-2">Análise Concluída</h3>
-                    <p className="text-gray-400 mb-6">
-                      Visualize os resultados detalhados da análise no painel ao lado
-                    </p>
-                    
-                    <div className={cn(
-                      "px-4 py-3 rounded-lg text-center font-medium max-w-xs mx-auto",
-                      riskLevel === 'low' && "bg-green-950/30 text-green-400 border border-green-500/30",
-                      riskLevel === 'medium' && "bg-yellow-950/30 text-yellow-400 border border-yellow-500/30",
-                      riskLevel === 'high' && "bg-red-950/30 text-red-400 border border-red-500/30",
-                    )}>
-                      {riskLevel === 'low' && 'Este token passou em todas as verificações de segurança principais'}
-                      {riskLevel === 'medium' && 'Este token tem alguns pontos de atenção que exigem cautela'}
-                      {riskLevel === 'high' && 'Este token apresenta riscos significativos de segurança'}
+                  <div className="absolute inset-0 z-20 bg-bscdark-dark/50 backdrop-blur-sm flex items-center justify-center">
+                    <div className="text-center p-6">
+                      <div className={cn(
+                        "w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4",
+                        riskLevel === 'low' && "bg-green-500/20 text-green-400 border border-green-500/50",
+                        riskLevel === 'medium' && "bg-yellow-500/20 text-yellow-400 border border-yellow-500/50",
+                        riskLevel === 'high' && "bg-red-500/20 text-red-400 border border-red-500/50",
+                      )}>
+                        {riskLevel === 'low' && <Shield className="w-8 h-8" />}
+                        {riskLevel === 'medium' && <CircleAlert className="w-8 h-8" />}
+                        {riskLevel === 'high' && <CircleAlert className="w-8 h-8" />}
+                      </div>
+                      <h3 className={cn(
+                        "text-2xl font-bold mb-2",
+                        riskLevel === 'low' && "text-green-400",
+                        riskLevel === 'medium' && "text-yellow-400",
+                        riskLevel === 'high' && "text-red-400",
+                      )}>
+                        {riskLevel === 'low' && 'Seguro'}
+                        {riskLevel === 'medium' && 'Atenção'}
+                        {riskLevel === 'high' && 'Perigoso'}
+                      </h3>
+                      <p className="text-gray-300 mb-4">Análise de segurança completa</p>
+                      <div className={cn(
+                        "inline-block px-4 py-2 rounded-full text-sm font-medium",
+                        riskLevel === 'low' && "bg-green-500/20 text-green-400 border border-green-500/30",
+                        riskLevel === 'medium' && "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30",
+                        riskLevel === 'high' && "bg-red-500/20 text-red-400 border border-red-500/30",
+                      )}>
+                        Score: {getRiskScore()}/100
+                      </div>
                     </div>
                   </div>
                 )}
