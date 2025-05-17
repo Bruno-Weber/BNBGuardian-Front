@@ -36,11 +36,11 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
       const glitch = Math.random() * 0.2 * (intensity === 'low' ? 0.5 : intensity === 'high' ? 1.5 : 1);
       const newDisruption = Math.min(1, baseDisruption + (Math.random() > 0.7 ? glitch : 0));
       
-      // Calculate liquid deformation
-      const deformIntensity = intensity === 'low' ? 0.5 : intensity === 'high' ? 1.5 : 1;
-      const deformX = Math.sin(timer * 1.3) * 5 * deformIntensity;
-      const deformY = Math.sin(timer * 0.7) * 5 * deformIntensity;
-      const deformScale = 1 + Math.sin(timer) * 0.05 * deformIntensity;
+      // Calculate liquid deformation - increased amplitudes for more noticeable effect
+      const deformIntensity = intensity === 'low' ? 0.8 : intensity === 'high' ? 2.5 : 1.8;
+      const deformX = Math.sin(timer * 1.3) * 8 * deformIntensity;
+      const deformY = Math.sin(timer * 0.7) * 8 * deformIntensity;
+      const deformScale = 1 + Math.sin(timer) * 0.08 * deformIntensity;
       
       setDisruption(newDisruption);
       setLiquidDeform({ 
@@ -94,20 +94,21 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         )}
         style={{
           transform: `scale(${liquidDeform.scale}) translate(${liquidDeform.x * 0.5}px, ${liquidDeform.y * 0.5}px)`,
-          borderRadius: `${50 + Math.sin(liquidDeform.x * 0.2) * 5}% ${50 + Math.cos(liquidDeform.y * 0.2) * 5}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.2) * 5}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.2) * 5}%`,
-          transition: 'border-radius 0.3s ease-out',
+          // More extreme border-radius variations for stronger deformation effect
+          borderRadius: `${50 + Math.sin(liquidDeform.x * 0.3) * 12}% ${50 + Math.cos(liquidDeform.y * 0.3) * 12}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.3) * 12}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.3) * 12}%`,
+          transition: 'border-radius 0.2s ease-out', // Faster transition for more immediate deformation
         }}
       >
-        {/* Liquid blob effect - multiple overlaid circles with varying opacities */}
-        {Array.from({ length: 3 }).map((_, i) => (
+        {/* Liquid blob effect - multiple overlaid circles with varying opacities - larger variations */}
+        {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={`liquid-blob-${i}`}
             className="absolute rounded-full bg-bscamber-light/30"
             style={{
-              width: `${80 + Math.sin(Date.now() * 0.001 + i) * 10}%`,
-              height: `${80 + Math.cos(Date.now() * 0.001 + i) * 10}%`,
-              top: `${10 + Math.sin(Date.now() * 0.0005 + i * 2) * 5}%`,
-              left: `${10 + Math.cos(Date.now() * 0.0005 + i * 2) * 5}%`,
+              width: `${70 + Math.sin(Date.now() * 0.001 + i) * 20}%`, // Increased range
+              height: `${70 + Math.cos(Date.now() * 0.001 + i) * 20}%`, // Increased range
+              top: `${15 + Math.sin(Date.now() * 0.0005 + i * 2) * 10}%`, // Increased motion range
+              left: `${15 + Math.cos(Date.now() * 0.0005 + i * 2) * 10}%`, // Increased motion range
               filter: 'blur(8px)',
               opacity: 0.4,
               animation: `liquid-pulse ${3 + i}s ease-in-out infinite alternate`,
@@ -116,17 +117,18 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
           />
         ))}
         
-        {/* Inner core with liquid effect */}
+        {/* Inner core with enhanced liquid effect */}
         <div 
           className="absolute rounded-full bg-gradient-to-br from-bscamber-light/60 via-bscamber/70 to-bscamber-dark/50"
           style={{
             inset: '15%',
             boxShadow: 'inset 0 0 20px rgba(255, 255, 255, 0.3)',
-            borderRadius: `${50 + Math.sin(liquidDeform.x * 0.3) * 8}% ${50 + Math.cos(liquidDeform.y * 0.3) * 8}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.3) * 8}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.3) * 8}%`,
+            // More dramatic border-radius changes for the inner core
+            borderRadius: `${50 + Math.sin(liquidDeform.x * 0.4) * 15}% ${50 + Math.cos(liquidDeform.y * 0.4) * 15}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.4) * 15}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.4) * 15}%`,
           }}
         />
         
-        {/* Fluid ripple effect */}
+        {/* Fluid ripple effect with enhanced movement */}
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={`ripple-${i}`}
@@ -134,26 +136,26 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
             style={{
               width: `${(i + 1) * 20}%`,
               height: `${(i + 1) * 20}%`,
-              top: `${50 - (i + 1) * 10}%`,
-              left: `${50 - (i + 1) * 10}%`,
+              top: `${50 - (i + 1) * 10 + Math.sin(Date.now() * 0.001 + i) * 3}%`, // Added sine wave for additional movement
+              left: `${50 - (i + 1) * 10 + Math.cos(Date.now() * 0.001 + i) * 3}%`, // Added cosine wave for additional movement
               animation: `ripple ${2 + i}s infinite ease-in-out`,
               animationDelay: `${i * 0.5}s`,
               opacity: 0.6 - (i * 0.1),
-              transform: `scale(${1 + Math.sin(Date.now() * 0.001 + i) * 0.05})`,
+              transform: `scale(${1 + Math.sin(Date.now() * 0.001 + i) * 0.1})`, // Increased scale variation
             }}
           />
         ))}
         
-        {/* Glitch lines - horizontal - now curved and liquid-like */}
+        {/* Glitch lines - horizontal - now curved and liquid-like with enhanced effects */}
         {Array.from({ length: 5 }).map((_, i) => (
           <div
             key={`h-glitch-${i}`}
             className="absolute h-[1px] rounded-full overflow-hidden opacity-60 z-10"
             style={{
-              top: `${20 + i * 15}%`,
+              top: `${20 + i * 15 + Math.sin(Date.now() * 0.001 + i) * 2}%`, // Added sine wave for vertical movement
               left: '5%',
               width: '90%',
-              transform: `translateY(${disruption > 0.6 ? Math.sin(i * 500) * 5 : 0}px) scaleX(${1 + Math.sin(Date.now() * 0.001 + i) * 0.1})`,
+              transform: `translateY(${disruption > 0.6 ? Math.sin(i * 500) * 8 : 0}px) scaleX(${1 + Math.sin(Date.now() * 0.001 + i) * 0.15})`, // Increased scale variation
               opacity: disruption > 0.5 ? 0.6 : 0.2,
               filter: `blur(${disruption > 0.8 ? 1 : 0}px)`,
               background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
@@ -162,26 +164,26 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
           />
         ))}
         
-        {/* Glitch arcs - liquid-like */}
+        {/* Glitch arcs - liquid-like with enhanced curvature */}
         {Array.from({ length: 3 }).map((_, i) => (
           <div
             key={`v-glitch-${i}`}
             className="absolute rounded-full opacity-60 z-10"
             style={{
               top: '5%',
-              left: `${30 + i * 20}%`,
-              width: `${10 + Math.sin(Date.now() * 0.001 + i) * 3}%`,
+              left: `${30 + i * 20 + Math.sin(Date.now() * 0.0005 + i) * 5}%`, // Added horizontal movement
+              width: `${10 + Math.sin(Date.now() * 0.001 + i) * 5}%`, // Increased width variation
               height: '90%',
               borderRadius: '50%',
               borderLeft: disruption > 0.4 ? '1px solid rgba(255, 255, 255, 0.5)' : 'none',
-              transform: `translateX(${disruption > 0.6 ? Math.sin(i * 500) * 5 : 0}px) rotate(${i * 5 + Math.sin(Date.now() * 0.001) * 3}deg)`,
+              transform: `translateX(${disruption > 0.6 ? Math.sin(i * 500) * 8 : 0}px) rotate(${i * 5 + Math.sin(Date.now() * 0.001) * 5}deg)`, // Increased movement
               opacity: disruption > 0.4 ? 0.5 : 0.2,
               display: disruption > 0.4 ? 'block' : 'none',
             }}
           />
         ))}
         
-        {/* Liquid blob pulses */}
+        {/* Liquid blob pulses with larger size variations */}
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={`pulse-${i}`}
@@ -189,11 +191,11 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
             style={{
               top: `${Math.random() * 70 + 15}%`,
               left: `${Math.random() * 70 + 15}%`,
-              width: `${5 + Math.random() * 10}%`,
-              height: `${5 + Math.random() * 10}%`,
+              width: `${8 + Math.random() * 15}%`, // Larger pulses
+              height: `${8 + Math.random() * 15}%`, // Larger pulses
               borderRadius: '50%',
               opacity: disruption > 0.7 ? 0.7 : 0,
-              transform: `scale(${1 + Math.sin(Date.now() * 0.001) * 0.2})`,
+              transform: `scale(${1 + Math.sin(Date.now() * 0.001) * 0.3})`, // Increased scale variation
               filter: 'blur(1px)',
               display: disruption > 0.7 ? 'block' : 'none',
             }}
@@ -209,12 +211,12 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
           }}
         />
         
-        {/* Binary data overlay with liquid-like edges */}
+        {/* Binary data overlay with liquid-like edges and enhanced deformation */}
         <div 
           className="absolute inset-0 overflow-hidden opacity-20 mix-blend-overlay rounded-full"
           style={{
             opacity: disruption * 0.25,
-            borderRadius: `${50 + Math.sin(liquidDeform.x * 0.2) * 5}% ${50 + Math.cos(liquidDeform.y * 0.2) * 5}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.2) * 5}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.2) * 5}%`,
+            borderRadius: `${50 + Math.sin(liquidDeform.x * 0.3) * 10}% ${50 + Math.cos(liquidDeform.y * 0.3) * 10}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.3) * 10}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.3) * 10}%`,
           }}
         >
           <div 
@@ -235,7 +237,7 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         </div>
       </div>
       
-      {/* Orbital rings - with liquid-like movement */}
+      {/* Orbital rings - with enhanced liquid-like movement */}
       {Array.from({ length: 3 }).map((_, i) => (
         <div
           key={`ring-${i}`}
@@ -243,44 +245,45 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
             'absolute border border-bscamber-light/30 rounded-full',
           )}
           style={{
-            top: `${50 - (i + 1) * 10 + Math.sin(Date.now() * 0.0005 + i) * 2}%`,
-            left: `${50 - (i + 1) * 10 + Math.cos(Date.now() * 0.0005 + i) * 2}%`,
-            width: `${(i + 1) * 20 + Math.sin(Date.now() * 0.001 + i) * 2}%`,
-            height: `${(i + 1) * 20 + Math.cos(Date.now() * 0.001 + i) * 2}%`,
+            top: `${50 - (i + 1) * 10 + Math.sin(Date.now() * 0.0005 + i) * 4}%`, // Increased movement range
+            left: `${50 - (i + 1) * 10 + Math.cos(Date.now() * 0.0005 + i) * 4}%`, // Increased movement range
+            width: `${(i + 1) * 20 + Math.sin(Date.now() * 0.001 + i) * 4}%`, // Increased width variation
+            height: `${(i + 1) * 20 + Math.cos(Date.now() * 0.001 + i) * 4}%`, // Increased height variation
             opacity: 0.2 + (disruption * 0.3),
-            transform: `rotate(${i * 30 + Date.now() * 0.01}deg) scale(${1 + disruption * 0.1})`,
+            transform: `rotate(${i * 30 + Date.now() * 0.01}deg) scale(${1 + disruption * 0.15})`, // Increased scale effect
             display: disruption < 0.3 && i === 2 ? 'none' : 'block',
             borderRadius: '50%',
             transition: 'width 0.5s ease, height 0.5s ease',
           }}
         >
-          {/* Orbital disruption - now circular shape */}
+          {/* Orbital disruption - now circular shape with enhanced visibility */}
           {disruption > 0.6 && (
             <span 
               className="absolute bg-bscamber/80 rounded-full"
               style={{
-                width: '10px',
-                height: '10px',
+                width: '12px', // Larger disruption point
+                height: '12px', // Larger disruption point
                 top: `${Math.sin(Date.now() * 0.001) * 50 + 50}%`,
                 left: 0,
                 transform: 'translateY(-50%)',
+                filter: 'blur(1px)', // Slight blur for a glow effect
               }}
             />
           )}
         </div>
       ))}
       
-      {/* Energy particles - floating with liquid movement */}
-      {Array.from({ length: 8 }).map((_, i) => (
+      {/* Energy particles - floating with enhanced liquid movement */}
+      {Array.from({ length: 12 }).map((_, i) => ( // Increased number of particles
         <div
           key={`particle-${i}`}
           className="absolute bg-bscamber rounded-full z-20"
           style={{
-            width: `${1 + Math.random() * 1.5}px`,
-            height: `${1 + Math.random() * 1.5}px`,
+            width: `${1.5 + Math.random() * 2.5}px`, // Larger particles
+            height: `${1.5 + Math.random() * 2.5}px`, // Larger particles
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            boxShadow: '0 0 2px rgba(243, 186, 47, 0.8)',
+            boxShadow: '0 0 3px rgba(243, 186, 47, 0.8)', // Enhanced glow
             opacity: 0.6 + (disruption * 0.4),
             animation: `float-particle ${1.5 + Math.random() * 2}s ease-in-out infinite alternate`,
             animationDelay: `${i * 0.3}s`,
@@ -289,22 +292,22 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         />
       ))}
       
-      {/* Hacking effect - data stream with circular mask and liquid movement */}
+      {/* Hacking effect - data stream with circular mask and enhanced liquid movement */}
       {disruption > 0.5 && (
         <div className="absolute inset-0 overflow-hidden rounded-full">
-          {Array.from({ length: 3 }).map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => ( // Increased number of streams
             <div
               key={`stream-${i}`}
               className="absolute bg-bscamber-light/70 rounded-full"
               style={{
-                height: '2px',
+                height: '3px', // Thicker data streams
                 top: `${20 + Math.random() * 60}%`,
                 left: '-10%',
-                width: `${20 + 10 * disruption}%`,
+                width: `${30 + 15 * disruption}%`, // Longer streams
                 opacity: 0.7,
                 filter: 'blur(1px)',
-                transform: `rotate(${3 + Math.sin(Date.now() * 0.001 + i) * 2}deg)`,
-                animation: `data-flow ${1 + Math.random() * 0.5}s linear infinite`,
+                transform: `rotate(${3 + Math.sin(Date.now() * 0.001 + i) * 5}deg)`, // Increased rotation variation
+                animation: `data-flow ${0.8 + Math.random() * 0.5}s linear infinite`, // Faster animation
                 animationDelay: `${i * 0.2}s`,
                 borderRadius: '50%',
               }}
@@ -313,25 +316,25 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         </div>
       )}
       
-      {/* Liquid droplets that occasionally appear */}
-      {disruption > 0.6 && Array.from({ length: 2 }).map((_, i) => (
+      {/* Liquid droplets that occasionally appear with enhanced size and visibility */}
+      {disruption > 0.6 && Array.from({ length: 4 }).map((_, i) => ( // Increased number of droplets
         <div
           key={`droplet-${i}`}
           className="absolute bg-bscamber/70 rounded-full z-30"
           style={{
-            width: `${4 + Math.random() * 3}px`,
-            height: `${4 + Math.random() * 3}px`,
+            width: `${5 + Math.random() * 5}px`, // Larger droplets
+            height: `${5 + Math.random() * 5}px`, // Larger droplets
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            transform: `scale(${1 + Math.sin(Date.now() * 0.001 + i) * 0.2})`,
+            transform: `scale(${1 + Math.sin(Date.now() * 0.001 + i) * 0.3})`, // Enhanced scale variation
             filter: 'blur(1px)',
-            opacity: Math.random() > 0.7 ? 0.8 : 0,
+            opacity: Math.random() > 0.6 ? 0.9 : 0, // Higher opacity, more frequent appearance
             transition: 'opacity 0.3s ease-in-out',
           }}
         />
       ))}
       
-      {/* Glitch effect overlay - now properly circular with liquid deformation */}
+      {/* Glitch effect overlay - now properly circular with enhanced liquid deformation */}
       {disruption > 0.8 && (
         <div
           className="absolute inset-0 bg-bscamber/20 z-30 mix-blend-screen rounded-full overflow-hidden"
@@ -339,18 +342,18 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
             maskImage: 'radial-gradient(circle, black 0%, black 90%, transparent 100%)',
             opacity: (disruption - 0.8) * 5,
             animation: 'pulse-slow 0.5s ease-in-out infinite alternate',
-            borderRadius: `${50 + Math.sin(liquidDeform.x * 0.5) * 3}% ${50 + Math.cos(liquidDeform.y * 0.5) * 3}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.5) * 3}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.5) * 3}%`,
+            borderRadius: `${50 + Math.sin(liquidDeform.x * 0.6) * 10}% ${50 + Math.cos(liquidDeform.y * 0.6) * 10}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.6) * 10}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.6) * 10}%`,
           }}
         />
       )}
       
-      {/* Background glow - already circular with subtle pulsing */}
+      {/* Background glow - enhanced pulsing */}
       <div 
         className="absolute -z-10 bg-gradient-radial from-bscamber/15 via-bscamber/5 to-transparent opacity-50 rounded-full"
         style={{
           inset: '-20%',
-          filter: `blur(${5 + Math.sin(Date.now() * 0.0005) * 2}px)`,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.0005) * 0.05})`,
+          filter: `blur(${5 + Math.sin(Date.now() * 0.0005) * 4}px)`, // Enhanced blur variation
+          transform: `scale(${1 + Math.sin(Date.now() * 0.0005) * 0.08})`, // Enhanced scale pulsing
         }}
       />
     </div>
