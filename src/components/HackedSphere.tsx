@@ -89,74 +89,82 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
           }}
         />
         
-        {/* Glitch lines - horizontal */}
+        {/* Glitch lines - horizontal - now curved */}
         {Array.from({ length: 5 }).map((_, i) => (
           <div
             key={`h-glitch-${i}`}
-            className="absolute h-[1px] w-full bg-white/60 z-10"
+            className="absolute h-[1px] rounded-full overflow-hidden opacity-60 z-10"
             style={{
               top: `${20 + i * 15}%`,
-              transform: `translateY(${disruption > 0.6 ? Math.sin(i * 500) * 5 : 0}px) scaleY(${disruption > 0.7 ? 2 : 1})`,
+              left: '5%',
+              width: '90%',
+              transform: `translateY(${disruption > 0.6 ? Math.sin(i * 500) * 5 : 0}px)`,
               opacity: disruption > 0.5 ? 0.6 : 0.2,
               filter: `blur(${disruption > 0.8 ? 1 : 0}px)`,
-              left: `${disruption > 0.9 ? Math.sin(Date.now() * 0.01) * 10 : 0}%`,
-              width: `${disruption > 0.75 ? 90 + Math.sin(Date.now() * 0.005) * 10 : 100}%`,
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
             }}
           />
         ))}
         
-        {/* Glitch lines - vertical */}
+        {/* Glitch arcs - replacing vertical lines */}
         {Array.from({ length: 3 }).map((_, i) => (
           <div
             key={`v-glitch-${i}`}
-            className="absolute w-[1px] h-full bg-white/60 z-10"
+            className="absolute rounded-full opacity-60 z-10"
             style={{
+              top: '5%',
               left: `${30 + i * 20}%`,
-              transform: `translateX(${disruption > 0.6 ? Math.sin(i * 500) * 5 : 0}px) scaleX(${disruption > 0.7 ? 2 : 1})`,
+              width: `${10}%`,
+              height: '90%',
+              borderRadius: '50%',
+              borderLeft: disruption > 0.4 ? '1px solid rgba(255, 255, 255, 0.5)' : 'none',
+              transform: `translateX(${disruption > 0.6 ? Math.sin(i * 500) * 5 : 0}px) rotate(${i * 5}deg)`,
               opacity: disruption > 0.4 ? 0.5 : 0.2,
               display: disruption > 0.4 ? 'block' : 'none',
             }}
           />
         ))}
         
-        {/* Glitch blocks */}
+        {/* Glitch circular pulses instead of blocks */}
         {Array.from({ length: 4 }).map((_, i) => (
           <div
-            key={`block-${i}`}
-            className="absolute bg-bscamber/60 z-10"
+            key={`pulse-${i}`}
+            className="absolute rounded-full bg-bscamber/60 z-10"
             style={{
-              top: `${Math.random() * 80}%`,
-              left: `${Math.random() * 80}%`,
-              width: `${5 + Math.random() * 20}%`,
-              height: `${2 + Math.random() * 5}%`,
+              top: `${Math.random() * 70 + 15}%`,
+              left: `${Math.random() * 70 + 15}%`,
+              width: `${5 + Math.random() * 10}%`,
+              height: `${5 + Math.random() * 10}%`,
+              borderRadius: '50%',
               opacity: disruption > 0.7 ? 0.7 : 0,
-              transform: `skew(${Math.sin(Date.now() * 0.001) * 20}deg)`,
+              transform: `scale(${1 + Math.sin(Date.now() * 0.001) * 0.2})`,
               filter: 'blur(1px)',
               display: disruption > 0.7 ? 'block' : 'none',
             }}
           />
         ))}
         
-        {/* Digital noise overlay */}
+        {/* Digital noise overlay with rounded mask */}
         <div 
-          className="absolute inset-0 mix-blend-overlay"
+          className="absolute inset-0 mix-blend-overlay rounded-full overflow-hidden"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
             opacity: 0.1 + disruption * 0.3,
           }}
         />
         
-        {/* Binary data overlay */}
+        {/* Binary data overlay with rounded edges */}
         <div 
-          className="absolute inset-0 overflow-hidden opacity-20 mix-blend-overlay"
+          className="absolute inset-0 overflow-hidden opacity-20 mix-blend-overlay rounded-full"
           style={{
             opacity: disruption * 0.25,
           }}
         >
           <div 
-            className="w-full h-full text-[6px] font-mono leading-none text-white/70"
+            className="w-full h-full text-[6px] font-mono leading-none text-white/70 rounded-full"
             style={{
               transform: `translateY(${Date.now() % 1000 / 40}px)`,
+              maskImage: 'radial-gradient(circle, black 0%, black 80%, transparent 100%)',
             }}
           >
             {Array.from({ length: 40 }).map((_, i) => (
@@ -170,7 +178,7 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         </div>
       </div>
       
-      {/* Orbital rings */}
+      {/* Orbital rings - now perfectly circular */}
       {Array.from({ length: 3 }).map((_, i) => (
         <div
           key={`ring-${i}`}
@@ -189,21 +197,23 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
             display: disruption < 0.3 && i === 2 ? 'none' : 'block',
           }}
         >
-          {/* Orbital disruption */}
+          {/* Orbital disruption - now circular shape */}
           {disruption > 0.6 && (
             <span 
-              className="absolute w-[5%] h-[30%] bg-bscamber/80"
+              className="absolute bg-bscamber/80 rounded-full"
               style={{
+                width: '10px',
+                height: '10px',
                 top: `${Math.sin(Date.now() * 0.001) * 50 + 50}%`,
+                left: 0,
                 transform: 'translateY(-50%)',
-                borderRadius: '2px',
               }}
             />
           )}
         </div>
       ))}
       
-      {/* Energy particles */}
+      {/* Energy particles - already round */}
       {Array.from({ length: 8 }).map((_, i) => (
         <div
           key={`particle-${i}`}
@@ -221,20 +231,21 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         />
       ))}
       
-      {/* Hacking effect - data stream */}
+      {/* Hacking effect - data stream with circular mask */}
       {disruption > 0.5 && (
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden rounded-full">
           {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={`stream-${i}`}
-              className="absolute h-[2px] bg-bscamber-light/70"
+              className="absolute bg-bscamber-light/70 rounded-full"
               style={{
+                height: '2px',
                 top: `${20 + Math.random() * 60}%`,
                 left: '-10%',
                 width: `${20 + 10 * disruption}%`,
                 opacity: 0.7,
                 filter: 'blur(1px)',
-                transform: 'skewY(3deg)',
+                transform: 'rotate(3deg)',
                 animation: `data-flow ${1 + Math.random() * 0.5}s linear infinite`,
                 animationDelay: `${i * 0.2}s`,
               }}
@@ -243,20 +254,20 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         </div>
       )}
       
-      {/* Glitch effect overlay */}
+      {/* Glitch effect overlay - now properly circular */}
       {disruption > 0.8 && (
         <div
-          className="absolute inset-0 bg-bscamber/20 z-30 mix-blend-screen"
+          className="absolute inset-0 bg-bscamber/20 z-30 mix-blend-screen rounded-full overflow-hidden"
           style={{
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 5%, 0% 5%, 0% 10%, 100% 10%, 100% 15%, 0% 15%, 0% 20%, 100% 20%, 100% 25%, 0% 25%, 0% 30%, 100% 30%, 100% 35%, 0% 35%, 0% 40%, 100% 40%, 100% 45%, 0% 45%, 0% 50%, 100% 50%, 100% 55%, 0% 55%, 0% 60%, 100% 60%, 100% 65%, 0% 65%, 0% 70%, 100% 70%, 100% 75%, 0% 75%, 0% 80%, 100% 80%, 100% 85%, 0% 85%, 0% 90%, 100% 90%, 100% 95%, 0% 95%, 0% 100%, 100% 100%, 100% 95%, 0% 95%, 0% 90%, 100% 90%, 100% 85%, 0% 85%, 0% 80%, 100% 80%, 100% 75%, 0% 75%, 0% 70%, 100% 70%, 100% 65%, 0% 65%, 0% 60%, 100% 60%, 100% 55%, 0% 55%, 0% 50%, 100% 50%, 100% 45%, 0% 45%, 0% 40%, 100% 40%, 100% 35%, 0% 35%, 0% 30%, 100% 30%, 100% 25%, 0% 25%, 0% 20%, 100% 20%, 100% 15%, 0% 15%, 0% 10%, 100% 10%, 100% 5%, 0% 5%)',
-            animationDuration: '0.5s',
+            maskImage: 'radial-gradient(circle, black 0%, black 90%, transparent 100%)',
             opacity: (disruption - 0.8) * 5,
+            animation: 'pulse-slow 0.5s ease-in-out infinite alternate',
           }}
         />
       )}
       
-      {/* Background glow */}
-      <div className="absolute inset-[-20%] -z-10 bg-gradient-radial from-bscamber/15 via-bscamber/5 to-transparent opacity-50"></div>
+      {/* Background glow - already circular */}
+      <div className="absolute inset-[-20%] -z-10 bg-gradient-radial from-bscamber/15 via-bscamber/5 to-transparent opacity-50 rounded-full"></div>
     </div>
   );
 };
