@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -280,37 +281,85 @@ const TokenScanner = () => {
               
               {/* Lado direito - Robô interativo 3D */}
               <div className="relative bg-bscdark-dark min-h-[400px] overflow-hidden">
-                {/* Fundo com grade hexagonal */}
-                <div className="hexagon-grid absolute top-0 left-0 w-full h-full opacity-30"></div>
+                {/* Fundo tecnológico com circuitos */}
+                <div className="absolute inset-0 z-0">
+                  <div className="circuit-background w-full h-full opacity-20"></div>
+                  <div className="absolute inset-0 bg-gradient-to-b from-bscdark-dark/0 via-bscamber/5 to-bscdark-dark/0"></div>
+                </div>
+                
+                {/* Título do robô */}
+                <div className="absolute top-4 left-0 right-0 z-30 text-center">
+                  <div className="inline-block px-4 py-1 rounded-full bg-bscamber/20 border border-bscamber/30">
+                    <span className="text-bscamber font-medium text-sm flex items-center justify-center">
+                      <Scan className="w-4 h-4 mr-1" /> Scanner
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Anéis tecnológicos animados */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0">
+                  <div className="w-56 h-56 rounded-full border border-bscamber/10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse-slow"></div>
+                  <div className="w-48 h-48 rounded-full border border-bscamber/15 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse-slow animation-delay-300"></div>
+                  <div className="w-40 h-40 rounded-full border border-bscamber/20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse-slow animation-delay-600"></div>
+                </div>
                 
                 {/* Robô 3D interativo */}
-                <div className="absolute inset-0 z-10">
-                  <InteractiveRobotSpline 
-                    scene={ROBOT_SCENE_URL}
-                    className="w-full h-full"
-                  />
+                <div className="absolute inset-0 z-10 flex items-center justify-center">
+                  <div className="w-4/5 h-4/5 transform scale-90">
+                    <InteractiveRobotSpline 
+                      scene={ROBOT_SCENE_URL}
+                      className="w-full h-full"
+                    />
+                  </div>
                 </div>
                 
                 {/* Overlay para estados diferentes */}
                 {isScanning && (
-                  <div className="absolute inset-0 z-20 bg-bscdark-dark/50 backdrop-blur-sm">
+                  <div className="absolute inset-0 z-20 bg-bscdark-dark/60 backdrop-blur-sm">
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      {/* Código de contrato com efeito de escaneamento */}
-                      <div className="code-scan-highlight w-full max-w-md bg-bscdark-darker/80 p-4 mb-4 rounded-md border border-bscamber/30">
-                        <pre className="text-xs text-bscamber/80 font-mono h-32 overflow-hidden">
-                          {codeLines.slice(0, 10).map((line, idx) => (
-                            <div 
-                              key={idx} 
-                              className="whitespace-pre opacity-80"
-                            >
-                              {line}
+                      {/* Hexágono central do scanner */}
+                      <div className="relative mb-6">
+                        <div className="w-32 h-32 relative">
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Hexagon className="w-full h-full text-bscamber opacity-20 animate-pulse" strokeWidth={1} />
+                            <Hexagon className="w-[90%] h-[90%] absolute text-bscamber opacity-30" strokeWidth={1} />
+                            <Hexagon className="w-[80%] h-[80%] absolute text-bscamber opacity-50" strokeWidth={1} />
+                            <div className="absolute w-[70%] h-[70%] flex items-center justify-center">
+                              <CircuitBoard className="w-10 h-10 text-bscamber opacity-70" />
                             </div>
-                          ))}
-                        </pre>
+                          </div>
+                        </div>
+                        
+                        {/* Raios de scanner saindo do hexágono */}
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full">
+                          <div className="absolute top-1/2 left-1/2 w-0.5 h-40 bg-gradient-to-b from-bscamber/0 via-bscamber/60 to-bscamber/0" 
+                               style={{transform: 'translateX(-50%) rotate(0deg)'}}></div>
+                          <div className="absolute top-1/2 left-1/2 w-0.5 h-40 bg-gradient-to-b from-bscamber/0 via-bscamber/40 to-bscamber/0" 
+                               style={{transform: 'translateX(-50%) rotate(60deg)'}}></div>
+                          <div className="absolute top-1/2 left-1/2 w-0.5 h-40 bg-gradient-to-b from-bscamber/0 via-bscamber/40 to-bscamber/0" 
+                               style={{transform: 'translateX(-50%) rotate(120deg)'}}></div>
+                        </div>
+                      </div>
+
+                      {/* Perspectiva 3D para o código */}
+                      <div className="perspective-container w-full max-w-md">
+                        {/* Código de contrato com efeito de escaneamento */}
+                        <div className="code-scan-highlight w-full bg-bscdark-darker/80 p-4 mb-4 rounded-md border border-bscamber/30 transform rotate3d(1, 0, 0, 30deg) scale-75">
+                          <pre className="text-xs text-bscamber/80 font-mono h-24 overflow-hidden">
+                            {codeLines.slice(0, 10).map((line, idx) => (
+                              <div 
+                                key={idx} 
+                                className="whitespace-pre opacity-80"
+                              >
+                                {line}
+                              </div>
+                            ))}
+                          </pre>
+                        </div>
                       </div>
                       
                       {/* Status de escaneamento */}
-                      <div className="text-center">
+                      <div className="text-center mt-4">
                         <div className="text-bscamber text-xl font-medium mb-2">{scanPhase}</div>
                         <div className="text-sm text-bscamber/70 mb-3">{scanProgress}% completo</div>
                         <div className="h-1.5 w-64 bg-bscdark-lighter rounded-full overflow-hidden">
@@ -340,8 +389,8 @@ const TokenScanner = () => {
                 
                 {/* Overlay para resultado completo */}
                 {scanComplete && (
-                  <div className="absolute inset-0 z-20 bg-bscdark-dark/50 backdrop-blur-sm flex items-center justify-center">
-                    <div className="text-center p-6">
+                  <div className="absolute inset-0 z-20 bg-bscdark-dark/60 backdrop-blur-sm flex items-center justify-center">
+                    <div className="text-center p-6 max-w-xs">
                       <div className={cn(
                         "w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4",
                         riskLevel === 'low' && "bg-green-500/20 text-green-400 border border-green-500/50",
@@ -374,11 +423,23 @@ const TokenScanner = () => {
                     </div>
                   </div>
                 )}
+
+                {/* Brilho de fundo */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-48 h-48 bg-bscamber/10 rounded-full filter blur-3xl"></div>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
+
+      <style jsx global>{`
+        .circuit-background {
+          background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f3ba2f' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .perspective-container {
+          perspective: 1000px;
+        }
+      `}</style>
     </section>
   );
 };
