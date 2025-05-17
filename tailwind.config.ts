@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,6 +19,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Poppins', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -52,6 +56,22 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				bscamber: {
+					DEFAULT: '#f3ba2f',
+					light: '#f8d47f',
+					dark: '#c99620'
+				},
+				bscdark: {
+					DEFAULT: '#121212',
+					light: '#1e1e1e',
+					lighter: '#2a2a2a',
+					dark: '#0a0a0a'
+				},
+				risk: {
+					low: '#4ade80',
+					medium: '#facc15', 
+					high: '#ef4444'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,11 +104,49 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-slow': {
+					'0%, 100%': {
+						opacity: '1'
+					},
+					'50%': {
+						opacity: '0.7'
+					}
+				},
+				'slide-in': {
+					'0%': {
+						transform: 'translateY(20px)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'translateY(0)',
+						opacity: '1'
+					}
+				},
+				'scan-line': {
+					'0%': {
+						transform: 'translateY(0%)'
+					},
+					'100%': {
+						transform: 'translateY(100%)'
+					}
+				},
+				'hexagon-float': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
+				'slide-in': 'slide-in 0.5s ease-out forwards',
+				'scan-line': 'scan-line 1.5s ease-in-out infinite',
+				'hexagon-float': 'hexagon-float 5s ease-in-out infinite'
 			}
 		}
 	},
