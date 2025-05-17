@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Shield, CircleAlert, CircleCheck, Lock, Scan, Radar, Atom, CircuitBoard, Hexagon, Code } from 'lucide-react';
+import { Shield, CircleAlert, CircleCheck, Lock, Scan } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import QuantumCore from './QuantumCore';
@@ -184,207 +184,50 @@ const TokenScanner = () => {
     return [];
   };
 
-  // CSS para emblema interativo futurista
-  const futuristicStyles = `
-    .interactive-emblem {
-      position: relative;
-      width: 160px;
-      height: 160px;
-      margin: 0 auto;
-      transform-style: preserve-3d;
-      transition: all 0.5s ease;
-    }
-    
-    .emblem-core {
+  // CSS for anomaly background effect
+  const anomalyStyles = `
+    .anomaly-bg {
       position: absolute;
-      width: 100px;
-      height: 100px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      background: rgba(243, 186, 47, 0.2);
-      box-shadow: 
-        0 0 15px rgba(243, 186, 47, 0.6),
-        0 0 30px rgba(243, 186, 47, 0.3),
-        inset 0 0 20px rgba(243, 186, 47, 0.5);
-      backdrop-filter: blur(5px);
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      inset: 0;
+      opacity: 0.2;
+      z-index: 0;
+      overflow: hidden;
     }
     
-    .emblem-ring {
+    .anomaly-line {
       position: absolute;
-      border-radius: 50%;
-      border: 2px solid rgba(243, 186, 47, 0.3);
-      transform-style: preserve-3d;
-    }
-    
-    .ring-1 {
-      width: 140px;
-      height: 140px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) rotateZ(0deg);
-      animation: rotate-ring 15s linear infinite;
-    }
-    
-    .ring-2 {
-      width: 180px;
-      height: 180px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) rotateZ(45deg);
-      animation: rotate-ring-reverse 25s linear infinite;
-    }
-    
-    .emblem-particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: rgba(243, 186, 47, 0.8);
-      border-radius: 50%;
-      filter: blur(1px);
-    }
-    
-    .emblem-segment {
-      position: absolute;
-      width: 140%;
-      height: 140%;
-      left: -20%;
-      top: -20%;
-      border-radius: 50%;
-      border: 1px dashed rgba(243, 186, 47, 0.2);
-      clip-path: polygon(50% 50%, 100% 0, 100% 33%);
-      animation: rotate-segment 8s linear infinite;
-      pointer-events: none;
-    }
-    
-    .segment-2 {
-      transform: rotate(72deg);
-      animation-delay: -1.6s;
-    }
-    
-    .segment-3 {
-      transform: rotate(144deg);
-      animation-delay: -3.2s;
-    }
-    
-    .segment-4 {
-      transform: rotate(216deg);
-      animation-delay: -4.8s;
-    }
-    
-    .segment-5 {
-      transform: rotate(288deg);
-      animation-delay: -6.4s;
-    }
-    
-    .emblem-text {
-      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(243, 186, 47, 0.5), transparent);
       width: 100%;
-      text-align: center;
-      bottom: -40px;
-      color: rgba(243, 186, 47, 0.8);
-      font-size: 14px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      opacity: 0.8;
-      text-shadow: 0 0 10px rgba(243, 186, 47, 0.5);
+      animation: flow 3s linear infinite;
     }
     
-    .scan-button {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      outline: none;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
+    .anomaly-glow {
+      position: absolute;
+      width: 40%;
+      height: 40%;
+      background: radial-gradient(circle, rgba(243, 186, 47, 0.15) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite alternate;
     }
     
-    .pulse-effect {
-      animation: pulse-animation 2s infinite;
-    }
-    
-    .hover-effect {
-      transform: scale(1.1);
-    }
-    
-    .scan-icon {
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.5s ease;
-    }
-    
-    .hover-rotate {
-      animation: hover-rotation 3s infinite alternate;
-    }
-
-    @keyframes data-flow {
+    @keyframes flow {
       0% {
-        opacity: 1;
-        transform: translateY(-10px);
+        transform: translateX(-100%);
       }
       100% {
-        opacity: 0;
-        transform: translateY(10px);
+        transform: translateX(100%);
       }
     }
     
-    @keyframes rotate-ring {
+    @keyframes float {
       0% {
-        transform: translate(-50%, -50%) rotateZ(0deg);
-      }
-      100% {
-        transform: translate(-50%, -50%) rotateZ(360deg);
-      }
-    }
-    
-    @keyframes rotate-ring-reverse {
-      0% {
-        transform: translate(-50%, -50%) rotateZ(0deg);
-      }
-      100% {
-        transform: translate(-50%, -50%) rotateZ(-360deg);
-      }
-    }
-    
-    @keyframes rotate-segment {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-    
-    @keyframes pulse-animation {
-      0% {
-        box-shadow: 0 0 0 0 rgba(243, 186, 47, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 15px rgba(243, 186, 47, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(243, 186, 47, 0);
-      }
-    }
-    
-    @keyframes hover-rotation {
-      0% {
-        transform: translateY(0) rotateY(0deg);
+        transform: translate(10%, 20%);
       }
       50% {
-        transform: translateY(-5px) rotateY(180deg);
+        transform: translate(60%, 30%);
       }
       100% {
-        transform: translateY(0) rotateY(360deg);
+        transform: translate(40%, 70%);
       }
     }
     
@@ -394,6 +237,17 @@ const TokenScanner = () => {
       height: 10px;
       background: rgba(243, 186, 47, 0.6);
       animation: data-flow 1.5s linear infinite;
+    }
+    
+    @keyframes data-flow {
+      0% {
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
     }
   `;
 
@@ -412,9 +266,28 @@ const TokenScanner = () => {
     return particles;
   };
 
+  // Renderizar linhas de anomalia para o fundo
+  const renderAnomalyLines = () => {
+    const lines = [];
+    for (let i = 0; i < 10; i++) {
+      lines.push(
+        <div 
+          key={`line-${i}`} 
+          className="anomaly-line"
+          style={{ 
+            top: `${10 + i * 10}%`,
+            animationDelay: `${i * 0.3}s`,
+            opacity: 0.3 + (Math.random() * 0.4)
+          }} 
+        />
+      );
+    }
+    return lines;
+  };
+
   return (
     <section id="scanner" className="py-20 px-4">
-      <style>{futuristicStyles}</style>
+      <style>{anomalyStyles}</style>
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Escaneie qualquer token da BNB Chain</h2>
@@ -452,6 +325,7 @@ const TokenScanner = () => {
                   </p>
                 </div>
                 
+                {/* Input field and scan button */}
                 <div className="space-y-4">
                   <Input
                     value={tokenAddress}
@@ -530,16 +404,15 @@ const TokenScanner = () => {
               
               {/* Lado direito - Visualização futurista */}
               <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px] scanner-idle overflow-hidden">
-                {/* Circuit background pattern */}
-                <div className="absolute inset-0 opacity-20" 
-                     style={{
-                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='rgba(243, 186, 47, 0.5)' stroke-width='1' d='M10,10 L30,10 L30,30 L10,30 Z M40,10 L60,10 L60,30 L40,30 Z M70,10 L90,10 L90,30 L70,30 Z M10,40 L30,40 L30,60 L10,60 Z M40,40 L60,40 L60,60 L40,60 Z M70,40 L90,40 L90,60 L70,60 Z M10,70 L30,70 L30,90 L10,90 Z M40,70 L60,70 L60,90 L40,90 Z M70,70 L90,70 L90,90 L70,90 Z'/%3E%3C/svg%3E")`,
-                       backgroundSize: '300px 300px',
-                     }}
-                ></div>
-                
-                {/* Hexagonal grid background */}
-                <div className="hexagon-grid absolute top-0 left-0 w-full h-full opacity-30"></div>
+                {/* Anomaly background effect - replacing the grid pattern */}
+                <div className="anomaly-bg">
+                  {renderAnomalyLines()}
+                  
+                  {/* Glowing orbs */}
+                  <div className="anomaly-glow" style={{ left: '10%', top: '20%' }}></div>
+                  <div className="anomaly-glow" style={{ left: '60%', top: '70%', animationDelay: '1.5s' }}></div>
+                  <div className="anomaly-glow" style={{ left: '70%', top: '30%', animationDelay: '3s' }}></div>
+                </div>
                 
                 {/* Partículas flutuantes */}
                 <div className="floating-particles">
@@ -576,9 +449,6 @@ const TokenScanner = () => {
                     <p className="text-gray-300 max-w-xs relative z-10 mt-6">
                       Utilize o Scanner IA Quântico para analisar seu token de forma segura
                     </p>
-                    
-                    {/* Light effect */}
-                    <div className="absolute top-0 left-1/2 w-40 h-96 -ml-20 bg-bscamber/5 rounded-full blur-3xl"></div>
                   </div>
                 )}
                 
