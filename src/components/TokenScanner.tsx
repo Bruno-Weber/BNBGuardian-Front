@@ -7,6 +7,7 @@ import { Shield, CircleAlert, CircleCheck, Lock, Scan } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import QuantumCore from './QuantumCore';
+import MatrixRain from './ui/matrix-code';
 
 type RiskLevel = 'low' | 'medium' | 'high' | null;
 
@@ -404,14 +405,15 @@ const TokenScanner = () => {
               
               {/* Lado direito - Visualização futurista */}
               <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px] scanner-idle overflow-hidden">
-                {/* Anomaly background effect - replacing the grid pattern */}
-                <div className="anomaly-bg">
-                  {renderAnomalyLines()}
-                  
-                  {/* Glowing orbs */}
-                  <div className="anomaly-glow" style={{ left: '10%', top: '20%' }}></div>
-                  <div className="anomaly-glow" style={{ left: '60%', top: '70%', animationDelay: '1.5s' }}></div>
-                  <div className="anomaly-glow" style={{ left: '70%', top: '30%', animationDelay: '3s' }}></div>
+                {/* Matrix code background - replacing the anomaly effect */}
+                <div className="absolute inset-0 z-0">
+                  <MatrixRain 
+                    fontSize={16} 
+                    color="#f3ba2f" 
+                    characters="01" 
+                    fadeOpacity={0.05}
+                    speed={0.8}
+                  />
                 </div>
                 
                 {/* Partículas flutuantes */}
@@ -455,7 +457,7 @@ const TokenScanner = () => {
                 {/* Scanning state */}
                 {isScanning && (
                   <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
-                    {/* Code analysis visualization */}
+                    {/* Code analysis visualization with matrix background visible behind */}
                     <div className="absolute inset-0 overflow-hidden">
                       <div className="relative h-full w-full flex items-center justify-center">
                         <div className="absolute z-10 w-[120%] h-[120%] bg-gradient-radial from-bscamber/10 to-transparent opacity-50 animate-pulse-slow"></div>
