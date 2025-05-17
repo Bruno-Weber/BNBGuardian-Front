@@ -138,6 +138,14 @@ export default {
 					'50%': {
 						transform: 'translateY(-10px)'
 					}
+				},
+				'scrolling-text': {
+					'0%': {
+						transform: 'translateY(0)'
+					},
+					'100%': {
+						transform: 'translateY(-120px)'
+					}
 				}
 			},
 			animation: {
@@ -146,7 +154,8 @@ export default {
 				'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
 				'slide-in': 'slide-in 0.5s ease-out forwards',
 				'scan-line': 'scan-line 1.5s ease-in-out infinite',
-				'hexagon-float': 'hexagon-float 5s ease-in-out infinite'
+				'hexagon-float': 'hexagon-float 5s ease-in-out infinite',
+				'scrolling-text': 'scrolling-text 8s linear infinite'
 			}
 		}
 	},

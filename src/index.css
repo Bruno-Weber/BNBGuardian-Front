@@ -93,4 +93,22 @@
   .gradient-text {
     @apply text-transparent bg-clip-text bg-gradient-to-r from-bscamber-light via-bscamber to-bscamber-dark;
   }
+  
+  @keyframes scrolling {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-120px);
+    }
+  }
+  
+  .animate-scrolling-text {
+    animation: scrolling 8s linear infinite;
+  }
+  
+  .animate-scan-line {
+    @apply absolute;
+    animation: scan-line 2s ease-in-out infinite;
+  }
 }
