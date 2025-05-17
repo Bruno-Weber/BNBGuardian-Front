@@ -19,6 +19,8 @@ const TokenScanner = () => {
   const [scanPhase, setScanPhase] = useState('');
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; speed: number; delay: number }[]>([]);
   const [codeLines, setCodeLines] = useState<string[]>([]);
+  const [isHovering, setIsHovering] = useState(false);
+  const [pulse, setPulse] = useState(false);
 
   // Gerar partículas para animação futurista
   useEffect(() => {
@@ -39,6 +41,13 @@ const TokenScanner = () => {
 
     generateParticles();
     generateSmartContractCode();
+    
+    // Efeito de pulso para o emblema interativo
+    const pulseInterval = setInterval(() => {
+      setPulse(prev => !prev);
+    }, 2000);
+    
+    return () => clearInterval(pulseInterval);
   }, []);
 
   // Gerar código de contrato inteligente simulado
@@ -175,8 +184,237 @@ const TokenScanner = () => {
     return [];
   };
 
+  // CSS para emblema interativo futurista
+  const futuristicStyles = `
+    .interactive-emblem {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      transition: all 0.5s ease;
+    }
+    
+    .emblem-core {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: rgba(243, 186, 47, 0.2);
+      box-shadow: 
+        0 0 15px rgba(243, 186, 47, 0.6),
+        0 0 30px rgba(243, 186, 47, 0.3),
+        inset 0 0 20px rgba(243, 186, 47, 0.5);
+      backdrop-filter: blur(5px);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .emblem-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(243, 186, 47, 0.3);
+      transform-style: preserve-3d;
+    }
+    
+    .ring-1 {
+      width: 140px;
+      height: 140px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotateZ(0deg);
+      animation: rotate-ring 15s linear infinite;
+    }
+    
+    .ring-2 {
+      width: 180px;
+      height: 180px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotateZ(45deg);
+      animation: rotate-ring-reverse 25s linear infinite;
+    }
+    
+    .emblem-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(243, 186, 47, 0.8);
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+    
+    .emblem-segment {
+      position: absolute;
+      width: 140%;
+      height: 140%;
+      left: -20%;
+      top: -20%;
+      border-radius: 50%;
+      border: 1px dashed rgba(243, 186, 47, 0.2);
+      clip-path: polygon(50% 50%, 100% 0, 100% 33%);
+      animation: rotate-segment 8s linear infinite;
+      pointer-events: none;
+    }
+    
+    .segment-2 {
+      transform: rotate(72deg);
+      animation-delay: -1.6s;
+    }
+    
+    .segment-3 {
+      transform: rotate(144deg);
+      animation-delay: -3.2s;
+    }
+    
+    .segment-4 {
+      transform: rotate(216deg);
+      animation-delay: -4.8s;
+    }
+    
+    .segment-5 {
+      transform: rotate(288deg);
+      animation-delay: -6.4s;
+    }
+    
+    .emblem-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: -40px;
+      color: rgba(243, 186, 47, 0.8);
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.8;
+      text-shadow: 0 0 10px rgba(243, 186, 47, 0.5);
+    }
+    
+    .scan-button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    
+    .pulse-effect {
+      animation: pulse-animation 2s infinite;
+    }
+    
+    .hover-effect {
+      transform: scale(1.1);
+    }
+    
+    .scan-icon {
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+    
+    .hover-rotate {
+      animation: hover-rotation 3s infinite alternate;
+    }
+
+    @keyframes data-flow {
+      0% {
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+    }
+    
+    @keyframes rotate-ring {
+      0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotateZ(360deg);
+      }
+    }
+    
+    @keyframes rotate-ring-reverse {
+      0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotateZ(-360deg);
+      }
+    }
+    
+    @keyframes rotate-segment {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    @keyframes pulse-animation {
+      0% {
+        box-shadow: 0 0 0 0 rgba(243, 186, 47, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 15px rgba(243, 186, 47, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(243, 186, 47, 0);
+      }
+    }
+    
+    @keyframes hover-rotation {
+      0% {
+        transform: translateY(0) rotateY(0deg);
+      }
+      50% {
+        transform: translateY(-5px) rotateY(180deg);
+      }
+      100% {
+        transform: translateY(0) rotateY(360deg);
+      }
+    }
+    
+    .data-particle {
+      position: absolute;
+      width: 2px;
+      height: 10px;
+      background: rgba(243, 186, 47, 0.6);
+      animation: data-flow 1.5s linear infinite;
+    }
+  `;
+
+  // Função para gerar partículas de dados aleatórias
+  const renderDataParticles = () => {
+    const particles = [];
+    for (let i = 0; i < 20; i++) {
+      const style = {
+        left: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 2}s`,
+        height: `${Math.random() * 15 + 5}px`,
+        opacity: Math.random() * 0.7 + 0.3
+      };
+      particles.push(<div key={i} className="data-particle" style={style} />);
+    }
+    return particles;
+  };
+
   return (
     <section id="scanner" className="py-20 px-4">
+      <style>{futuristicStyles}</style>
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Escaneie qualquer token da BNB Chain</h2>
@@ -280,6 +518,14 @@ const TokenScanner = () => {
                 {/* Grade hexagonal de fundo */}
                 <div className="hexagon-grid absolute top-0 left-0 w-full h-full opacity-30"></div>
                 
+                {/* Padrões de circuito eletrônico no fundo */}
+                <div className="absolute inset-0 opacity-20" 
+                     style={{
+                       backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='rgba(243, 186, 47, 0.5)' stroke-width='1' d='M10,10 L30,10 L30,30 L10,30 Z M40,10 L60,10 L60,30 L40,30 Z M70,10 L90,10 L90,30 L70,30 Z M10,40 L30,40 L30,60 L10,60 Z M40,40 L60,40 L60,60 L40,60 Z M70,40 L90,40 L90,60 L70,60 Z M10,70 L30,70 L30,90 L10,90 Z M40,70 L60,70 L60,90 L40,90 Z M70,70 L90,70 L90,90 L70,90 Z'/%3E%3C/svg%3E")`,
+                       backgroundSize: '300px 300px',
+                     }}
+                ></div>
+                
                 {/* Partículas flutuantes */}
                 <div className="floating-particles">
                   {!isScanning && !scanComplete && particles.map(particle => (
@@ -301,56 +547,48 @@ const TokenScanner = () => {
                   ))}
                 </div>
                 
-                {/* Estado de visualização padrão - FUTURISTA */}
+                {/* Estado de visualização padrão - EMBLEMA INTERATIVO FUTURISTA */}
                 {!isScanning && !scanComplete && (
                   <div className="text-center z-10 relative">
-                    {/* Anéis orbitais */}
-                    <div className="absolute left-1/2 top-1/2 w-40 h-40 -ml-20 -mt-20">
-                      <div className="orbital-ring absolute w-full h-full"></div>
-                      <div className="orbital-ring absolute w-[120%] h-[120%] -left-[10%] -top-[10%]" style={{animationDuration: '20s', animationDirection: 'reverse'}}></div>
-                      <div className="orbital-ring absolute w-[140%] h-[140%] -left-[20%] -top-[20%]" style={{animationDuration: '25s'}}></div>
-                    </div>
-                    
-                    {/* Hexágono principal */}
-                    <div className="hexagon bg-bscdark-lighter w-32 h-32 mx-auto mb-6 flex items-center justify-center relative hexagon-pulse">
-                      <div className="absolute inset-0 hexagon bg-bscamber/10 glow-effect"></div>
-                      <div className="absolute inset-0 hexagon bg-gradient-to-br from-bscamber/20 to-transparent"></div>
+                    {/* Emblema interativo futurista */}
+                    <div 
+                      className={`interactive-emblem ${isHovering ? 'hover-effect' : ''} ${pulse ? 'pulse-effect' : ''}`}
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+                      onClick={handleScan}
+                    >
+                      {/* Anéis orbitais */}
+                      <div className="emblem-ring ring-1"></div>
+                      <div className="emblem-ring ring-2"></div>
                       
-                      {/* Ícone central */}
-                      <div className="relative z-10">
-                        <CircuitBoard className="w-12 h-12 text-bscamber glow-effect" />
+                      {/* Segmentos rotativos */}
+                      <div className="emblem-segment segment-1"></div>
+                      <div className="emblem-segment segment-2"></div>
+                      <div className="emblem-segment segment-3"></div>
+                      <div className="emblem-segment segment-4"></div>
+                      <div className="emblem-segment segment-5"></div>
+                      
+                      {/* Núcleo central do emblema */}
+                      <div className="emblem-core">
+                        <button className="scan-button">
+                          <Scan 
+                            size={40}
+                            className={`text-bscamber scan-icon ${isHovering ? 'hover-rotate' : ''}`} 
+                          />
+                        </button>
                       </div>
                       
-                      {/* Raio radar */}
-                      <div className="radar-beam"></div>
-                    </div>
-                    
-                    {/* Elemento de rotação em torno do hexágono */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 rotation-anim">
-                      <div className="absolute top-0 left-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                      <div className="absolute bottom-0 left-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                      <div className="absolute left-0 top-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                      <div className="absolute right-0 top-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
-                    </div>
-                    
-                    {/* Streams de dados virtuais */}
-                    <div className="absolute left-1/4 top-10 h-64 overflow-hidden w-16 opacity-50">
-                      <div className="data-stream">
-                        01010111 10100010 00101010 01010111 10100010 00101010 01010111 10100010 00101010
-                        10101010 01010101 10101010 01010101 10101010 01010101 10101010 01010101
+                      {/* Partículas de dados */}
+                      {isHovering && renderDataParticles()}
+                      
+                      {/* Texto interativo */}
+                      <div className="emblem-text">
+                        {isHovering ? "Iniciar Análise" : "BNB Scanner"}
                       </div>
                     </div>
                     
-                    <div className="absolute right-1/4 bottom-10 h-64 overflow-hidden w-16 opacity-50">
-                      <div className="data-stream" style={{animationDelay: '-5s'}}>
-                        10100010 00101010 01010111 10100010 00101010 01010111 10100010 00101010 01010111
-                        01010101 10101010 01010101 10101010 01010101 10101010 01010101 10101010
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-xl font-medium mb-2 text-bscamber gradient-text">Scanner Avançado</h3>
-                    <p className="text-gray-300 max-w-xs relative z-10">
-                      Insira um endereço de token para iniciar a análise de segurança em tempo real
+                    <p className="text-gray-300 max-w-xs relative z-10 mt-12">
+                      Clique no scanner para iniciar a análise de segurança em tempo real
                     </p>
                     
                     {/* Efeitos de luz */}
@@ -358,7 +596,7 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
-                {/* Estado de escaneamento - ENHANCED FUTURISTIC VERSION */}
+                {/* Estado de escaneamento */}
                 {isScanning && (
                   <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
                     {/* Código de contrato inteligente com efeito de escaneamento */}
@@ -404,17 +642,14 @@ const TokenScanner = () => {
                           
                           {/* Scanner central holográfico */}
                           <div className="relative z-20">
-                            <div className="hexagon bg-bscdark-darker/80 w-48 h-48 backdrop-blur-md relative glow-effect">
-                              {/* Borda animada do hexágono */}
-                              <div className="absolute inset-0 hexagon border-2 border-bscamber/50 opacity-80" style={{
-                                filter: 'drop-shadow(0 0 8px rgba(243, 186, 47, 0.8))'
-                              }}></div>
+                            <div className="interactive-emblem">
+                              <div className="emblem-ring ring-1"></div>
+                              <div className="emblem-ring ring-2"></div>
                               
-                              {/* Conteúdo do hexágono */}
-                              <div className="absolute inset-0 hexagon flex flex-col items-center justify-center p-4">
+                              {/* Core com animação de escaneamento */}
+                              <div className="emblem-core pulse-effect">
                                 <Radar className="w-16 h-16 text-bscamber animate-pulse-slow" />
                                 
-                                {/* Linhas de escaneamento horizontal */}
                                 <div className="absolute w-full h-full overflow-hidden">
                                   <div className="absolute h-1 bg-gradient-to-r from-transparent via-bscamber to-transparent w-full opacity-80"
                                        style={{
@@ -422,29 +657,17 @@ const TokenScanner = () => {
                                          animation: 'scan-line 1.5s ease-in-out infinite'
                                        }}></div>
                                 </div>
-                                
-                                {/* Grade digital com linhas cruzadas */}
-                                <div className="absolute w-full h-full grid grid-cols-6 opacity-40">
-                                  {Array.from({length: 6}).map((_, idx) => (
-                                    <div key={idx} className="h-full border-r border-bscamber/20"></div>
-                                  ))}
-                                </div>
-                                <div className="absolute w-full h-full grid grid-rows-6 opacity-40">
-                                  {Array.from({length: 6}).map((_, idx) => (
-                                    <div key={idx} className="w-full border-b border-bscamber/20"></div>
-                                  ))}
-                                </div>
-                                
-                                {/* Status de escaneamento */}
-                                <div className="mt-4 text-center">
-                                  <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
-                                  <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% completo</div>
-                                  <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden">
-                                    <div 
-                                      className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
-                                      style={{ width: `${scanProgress}%` }}
-                                    ></div>
-                                  </div>
+                              </div>
+                              
+                              {/* Status de escaneamento */}
+                              <div className="absolute bottom-[-40px] w-full text-center">
+                                <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
+                                <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% completo</div>
+                                <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden mx-auto">
+                                  <div 
+                                    className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
+                                    style={{ width: `${scanProgress}%` }}
+                                  ></div>
                                 </div>
                               </div>
                             </div>
@@ -469,35 +692,21 @@ const TokenScanner = () => {
                       ))}
                     </div>
                     
-                    {/* Partículas flutuantes durante o escaneamento */}
-                    <div className="absolute inset-0">
-                      {Array.from({length: 8}).map((_, idx) => (
-                        <div
-                          key={idx}
-                          className="absolute w-1 h-1 rounded-full bg-bscamber"
-                          style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            opacity: 0.6 + Math.random() * 0.4,
-                            animation: `glow 2s infinite alternate, floating ${1 + Math.random() * 3}s infinite alternate ease-in-out`,
-                            animationDelay: `${Math.random() * 2}s`,
-                          }}
-                        ></div>
-                      ))}
-                    </div>
-                    
                     {/* Efeitos de luz radial */}
                     <div className="absolute inset-0 bg-gradient-radial from-bscamber/5 via-transparent to-transparent"></div>
                   </div>
                 )}
                 
-                {/* Estado de resultados - Mantém a funcionalidade atual */}
+                {/* Estado de resultados */}
                 {scanComplete && (
                   <div className="z-10 w-full max-w-md text-center">
-                    <div className="hexagon bg-bscdark-lighter w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-                      {riskLevel === 'low' && <Shield className="w-10 h-10 text-risk-low" />}
-                      {riskLevel === 'medium' && <Shield className="w-10 h-10 text-risk-medium" />}
-                      {riskLevel === 'high' && <Shield className="w-10 h-10 text-risk-high" />}
+                    <div className="interactive-emblem mx-auto mb-4">
+                      <div className="emblem-ring ring-1"></div>
+                      <div className="emblem-core">
+                        {riskLevel === 'low' && <Shield className="w-10 h-10 text-risk-low" />}
+                        {riskLevel === 'medium' && <Shield className="w-10 h-10 text-risk-medium" />}
+                        {riskLevel === 'high' && <Shield className="w-10 h-10 text-risk-high" />}
+                      </div>
                     </div>
                     <h3 className="text-xl font-medium mb-2">Análise Concluída</h3>
                     <p className="text-gray-400 mb-6">
