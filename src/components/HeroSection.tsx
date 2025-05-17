@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Logo from './Logo';
 
 type HeroSectionProps = {
   scrollToScanner: () => void;
@@ -14,7 +15,7 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
       <div className="hexagon-grid"></div>
       <div className="container max-w-6xl mx-auto text-center relative z-10">
         <div className="inline-flex items-center justify-center bg-bscdark-lighter/50 backdrop-blur-sm rounded-full px-4 py-2 mb-6 animate-pulse-slow">
-          <Shield className="w-5 h-5 text-bscamber mr-2" />
+          <Logo size="sm" withText={false} className="mr-2" />
           <span className="text-sm font-medium">BNB Smart Chain Security Analysis</span>
         </div>
 
@@ -51,7 +52,11 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
             <div className="absolute inset-0 hexagon bg-gradient-to-br from-bscamber/20 to-bscamber/5 animate-hexagon-float"></div>
             <div className="absolute inset-4 hexagon bg-gradient-to-tr from-bscamber/30 to-bscamber/10 animate-hexagon-float" style={{animationDelay: '1s'}}></div>
             <div className="absolute inset-8 hexagon bg-bscdark-lighter flex items-center justify-center">
-              <Shield className="w-20 h-20 text-bscamber" />
+              <img 
+                src="/lovable-uploads/a7df998d-f032-4a4a-aed0-58a20ca3657d.png" 
+                alt="BSCGuard Logo" 
+                className="w-24 h-24 object-contain" 
+              />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-bscdark via-transparent to-transparent"></div>
           </div>

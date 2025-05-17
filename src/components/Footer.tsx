@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Shield } from 'lucide-react';
+import Logo from './Logo';
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -10,10 +10,7 @@ const Footer = () => {
       <div className="container max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center mb-4">
-              <Shield className="w-8 h-8 text-bscamber mr-2" />
-              <span className="text-xl font-bold">BSCGuard</span>
-            </div>
+            <Logo size="lg" className="mb-4" />
             <p className="text-gray-400 mb-4 max-w-md">
               Promovendo segurança na Web3, um token de cada vez. Nossa missão é tornar a BNB Chain mais segura para todos.
             </p>
