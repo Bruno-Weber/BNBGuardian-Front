@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Shield, CircleAlert, CircleCheck, Lock, Scan, Radar, Atom, CircuitBoard, Hexagon, Code } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import QuantumCore from './QuantumCore';
 
 type RiskLevel = 'low' | 'medium' | 'high' | null;
 
@@ -428,6 +428,20 @@ const TokenScanner = () => {
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Lado esquerdo - Formulário de entrada */}
               <div className="p-6 border-r border-bscdark-lighter">
+                {/* Quantum Core element above the form */}
+                <div className="flex flex-col items-center justify-center mb-8">
+                  <QuantumCore 
+                    size="md" 
+                    pulseIntensity="medium"
+                    className="mb-4 cursor-pointer"
+                    isActive={isHovering}
+                    onClick={handleScan}
+                  />
+                  <p className="text-center text-sm text-bscamber">
+                    Scanner IA Quântico - <span className="text-gray-400">Clique para analisar</span>
+                  </p>
+                </div>
+
                 <div className="mb-6">
                   <h3 className="text-xl font-semibold mb-4 flex items-center">
                     <Shield className="w-5 h-5 mr-2 text-bscamber" />
@@ -454,6 +468,7 @@ const TokenScanner = () => {
                   </Button>
                 </div>
 
+                {/* Result display section */}
                 {scanComplete && riskLevel && (
                   <div className="mt-6">
                     <div className="mb-4">
@@ -515,16 +530,16 @@ const TokenScanner = () => {
               
               {/* Lado direito - Visualização futurista */}
               <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px] scanner-idle overflow-hidden">
-                {/* Grade hexagonal de fundo */}
-                <div className="hexagon-grid absolute top-0 left-0 w-full h-full opacity-30"></div>
-                
-                {/* Padrões de circuito eletrônico no fundo */}
+                {/* Circuit background pattern */}
                 <div className="absolute inset-0 opacity-20" 
                      style={{
                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='none' stroke='rgba(243, 186, 47, 0.5)' stroke-width='1' d='M10,10 L30,10 L30,30 L10,30 Z M40,10 L60,10 L60,30 L40,30 Z M70,10 L90,10 L90,30 L70,30 Z M10,40 L30,40 L30,60 L10,60 Z M40,40 L60,40 L60,60 L40,60 Z M70,40 L90,40 L90,60 L70,60 Z M10,70 L30,70 L30,90 L10,90 Z M40,70 L60,70 L60,90 L40,90 Z M70,70 L90,70 L90,90 L70,90 Z'/%3E%3C/svg%3E")`,
                        backgroundSize: '300px 300px',
                      }}
                 ></div>
+                
+                {/* Hexagonal grid background */}
+                <div className="hexagon-grid absolute top-0 left-0 w-full h-full opacity-30"></div>
                 
                 {/* Partículas flutuantes */}
                 <div className="floating-particles">
@@ -547,167 +562,122 @@ const TokenScanner = () => {
                   ))}
                 </div>
                 
-                {/* Estado de visualização padrão - EMBLEMA INTERATIVO FUTURISTA */}
+                {/* Default view state */}
                 {!isScanning && !scanComplete && (
                   <div className="text-center z-10 relative">
-                    {/* Emblema interativo futurista */}
-                    <div 
-                      className={`interactive-emblem ${isHovering ? 'hover-effect' : ''} ${pulse ? 'pulse-effect' : ''}`}
-                      onMouseEnter={() => setIsHovering(true)}
-                      onMouseLeave={() => setIsHovering(false)}
+                    <QuantumCore 
+                      size="lg" 
+                      pulseIntensity="low"
                       onClick={handleScan}
-                    >
-                      {/* Anéis orbitais */}
-                      <div className="emblem-ring ring-1"></div>
-                      <div className="emblem-ring ring-2"></div>
-                      
-                      {/* Segmentos rotativos */}
-                      <div className="emblem-segment segment-1"></div>
-                      <div className="emblem-segment segment-2"></div>
-                      <div className="emblem-segment segment-3"></div>
-                      <div className="emblem-segment segment-4"></div>
-                      <div className="emblem-segment segment-5"></div>
-                      
-                      {/* Núcleo central do emblema */}
-                      <div className="emblem-core">
-                        <button className="scan-button">
-                          <Scan 
-                            size={40}
-                            className={`text-bscamber scan-icon ${isHovering ? 'hover-rotate' : ''}`} 
-                          />
-                        </button>
-                      </div>
-                      
-                      {/* Partículas de dados */}
-                      {isHovering && renderDataParticles()}
-                      
-                      {/* Texto interativo */}
-                      <div className="emblem-text">
-                        {isHovering ? "Iniciar Análise" : "BNB Scanner"}
-                      </div>
-                    </div>
+                      isActive={isHovering}
+                      className="mx-auto mb-6"
+                    />
                     
-                    <p className="text-gray-300 max-w-xs relative z-10 mt-12">
-                      Clique no scanner para iniciar a análise de segurança em tempo real
+                    <p className="text-gray-300 max-w-xs relative z-10 mt-6">
+                      Utilize o Scanner IA Quântico para analisar seu token de forma segura
                     </p>
                     
-                    {/* Efeitos de luz */}
+                    {/* Light effect */}
                     <div className="absolute top-0 left-1/2 w-40 h-96 -ml-20 bg-bscamber/5 rounded-full blur-3xl"></div>
                   </div>
                 )}
                 
-                {/* Estado de escaneamento */}
+                {/* Scanning state */}
                 {isScanning && (
                   <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
-                    {/* Código de contrato inteligente com efeito de escaneamento */}
+                    {/* Code analysis visualization */}
                     <div className="absolute inset-0 overflow-hidden">
                       <div className="relative h-full w-full flex items-center justify-center">
                         <div className="absolute z-10 w-[120%] h-[120%] bg-gradient-radial from-bscamber/10 to-transparent opacity-50 animate-pulse-slow"></div>
                         
-                        {/* Código do contrato espelhado em 3D */}
-                        <div className="perspective-container w-full h-full relative overflow-hidden flex items-center justify-center">
-                          {/* Código do lado esquerdo */}
-                          <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden pl-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(30deg)'}}>
-                            <pre className="text-xs text-bscamber/80 font-mono">
-                              {codeLines.slice(0, codeLines.length / 2).map((line, idx) => (
-                                <div 
-                                  key={idx} 
-                                  className="whitespace-pre opacity-80 transition-all duration-300"
-                                  style={{
-                                    transform: `translateX(${Math.sin(idx * 0.2) * 5}px)`,
-                                  }}
-                                >
-                                  {line}
-                                </div>
-                              ))}
-                            </pre>
-                          </div>
-                          
-                          {/* Código do lado direito */}
-                          <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden pr-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(-30deg)'}}>
-                            <pre className="text-xs text-bscamber/80 font-mono text-right">
-                              {codeLines.slice(codeLines.length / 2).map((line, idx) => (
-                                <div 
-                                  key={idx} 
-                                  className="whitespace-pre opacity-80 transition-all duration-300"
-                                  style={{
-                                    transform: `translateX(${Math.sin(idx * 0.2) * -5}px)`,
-                                  }}
-                                >
-                                  {line}
-                                </div>
-                              ))}
-                            </pre>
-                          </div>
-                          
-                          {/* Scanner central holográfico */}
-                          <div className="relative z-20">
-                            <div className="interactive-emblem">
-                              <div className="emblem-ring ring-1"></div>
-                              <div className="emblem-ring ring-2"></div>
-                              
-                              {/* Core com animação de escaneamento */}
-                              <div className="emblem-core pulse-effect">
-                                <Radar className="w-16 h-16 text-bscamber animate-pulse-slow" />
-                                
-                                <div className="absolute w-full h-full overflow-hidden">
-                                  <div className="absolute h-1 bg-gradient-to-r from-transparent via-bscamber to-transparent w-full opacity-80"
-                                       style={{
-                                         top: `${(scanProgress / 100) * 100}%`,
-                                         animation: 'scan-line 1.5s ease-in-out infinite'
-                                       }}></div>
-                                </div>
+                        {/* Code do lado esquerdo */}
+                        <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden pl-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(30deg)'}}>
+                          <pre className="text-xs text-bscamber/80 font-mono">
+                            {codeLines.slice(0, codeLines.length / 2).map((line, idx) => (
+                              <div 
+                                key={idx} 
+                                className="whitespace-pre opacity-80 transition-all duration-300"
+                                style={{
+                                  transform: `translateX(${Math.sin(idx * 0.2) * 5}px)`,
+                                }}
+                              >
+                                {line}
                               </div>
-                              
-                              {/* Status de escaneamento */}
-                              <div className="absolute bottom-[-40px] w-full text-center">
-                                <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
-                                <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% completo</div>
-                                <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden mx-auto">
-                                  <div 
-                                    className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
-                                    style={{ width: `${scanProgress}%` }}
-                                  ></div>
-                                </div>
+                            ))}
+                          </pre>
+                        </div>
+                        
+                        {/* Code do lado direito */}
+                        <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden pr-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(-30deg)'}}>
+                          <pre className="text-xs text-bscamber/80 font-mono text-right">
+                            {codeLines.slice(codeLines.length / 2).map((line, idx) => (
+                              <div 
+                                key={idx} 
+                                className="whitespace-pre opacity-80 transition-all duration-300"
+                                style={{
+                                  transform: `translateX(${Math.sin(idx * 0.2) * -5}px)`,
+                                }}
+                              >
+                                {line}
                               </div>
+                            ))}
+                          </pre>
+                        </div>
+                        
+                        {/* Scanner central holográfico */}
+                        <div className="relative z-20">
+                          <QuantumCore 
+                            size="lg" 
+                            pulseIntensity="high"
+                            className="mx-auto perspective-hover"
+                          />
+                          
+                          {/* Status de escaneamento */}
+                          <div className="absolute bottom-[-40px] w-full text-center">
+                            <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
+                            <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% completo</div>
+                            <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden mx-auto">
+                              <div 
+                                className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
+                                style={{ width: `${scanProgress}%` }}
+                              ></div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     
-                    {/* Raios de escaneamento */}
+                    {/* Energy beams */}
                     <div className="absolute inset-0 overflow-hidden">
                       {Array.from({length: 3}).map((_, idx) => (
                         <div 
                           key={idx}
-                          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-bscamber/60 to-transparent"
+                          className="energy-beam"
                           style={{
-                            top: `${15 + idx * 35}%`,
-                            animation: `scan-line ${1 + idx * 0.5}s ease-in-out infinite`,
-                            animationDelay: `${idx * 0.2}s`,
-                            opacity: 0.7
+                            animationDelay: `${idx * 0.5}s`
                           }}
                         ></div>
                       ))}
                     </div>
                     
-                    {/* Efeitos de luz radial */}
+                    {/* Radial glow effect */}
                     <div className="absolute inset-0 bg-gradient-radial from-bscamber/5 via-transparent to-transparent"></div>
                   </div>
                 )}
                 
-                {/* Estado de resultados */}
+                {/* Results state */}
                 {scanComplete && (
                   <div className="z-10 w-full max-w-md text-center">
-                    <div className="interactive-emblem mx-auto mb-4">
-                      <div className="emblem-ring ring-1"></div>
-                      <div className="emblem-core">
-                        {riskLevel === 'low' && <Shield className="w-10 h-10 text-risk-low" />}
-                        {riskLevel === 'medium' && <Shield className="w-10 h-10 text-risk-medium" />}
-                        {riskLevel === 'high' && <Shield className="w-10 h-10 text-risk-high" />}
-                      </div>
-                    </div>
+                    <QuantumCore 
+                      size="md"
+                      pulseIntensity={riskLevel === 'low' ? 'low' : riskLevel === 'medium' ? 'medium' : 'high'}
+                      className={cn(
+                        "mx-auto mb-4",
+                        riskLevel === 'low' && "shadow-[0_0_30px_rgba(74,222,128,0.5)]",
+                        riskLevel === 'medium' && "shadow-[0_0_30px_rgba(250,204,21,0.5)]",
+                        riskLevel === 'high' && "shadow-[0_0_30px_rgba(239,68,68,0.5)]",
+                      )}
+                    />
                     <h3 className="text-xl font-medium mb-2">Análise Concluída</h3>
                     <p className="text-gray-400 mb-6">
                       Visualize os resultados detalhados da análise no painel ao lado

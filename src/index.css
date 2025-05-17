@@ -282,4 +282,74 @@
       left: 100%;
     }
   }
+  
+  @keyframes float-particle {
+    0%, 100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(5px, -5px, 0);
+    }
+  }
+  
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(50px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(50px) rotate(-360deg);
+    }
+  }
+  
+  @keyframes quantum-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+  
+  /* 3D perspective animation */
+  .perspective-hover {
+    transition: transform 0.3s;
+    transform-style: preserve-3d;
+  }
+  
+  .perspective-hover:hover {
+    transform: perspective(1000px) rotateX(10deg) rotateY(10deg);
+  }
+  
+  /* Energy beam animation */
+  .energy-beam {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(243, 186, 47, 0.8), transparent);
+    animation: beam-scan 2s ease-in-out infinite;
+  }
+  
+  @keyframes beam-scan {
+    0% {
+      top: 0;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+  
+  .hextech-glow {
+    filter: drop-shadow(0 0 10px rgba(243, 186, 47, 0.5));
+    animation: quantum-pulse 3s infinite alternate;
+  }
 }
