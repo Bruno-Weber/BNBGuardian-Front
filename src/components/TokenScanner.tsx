@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Shield, CircleAlert, CircleCheck, Lock, Scan, Radar, Atom, CircuitBoard, Hexagon } from 'lucide-react';
+import { Shield, CircleAlert, CircleCheck, Lock, Scan, Radar, Atom, CircuitBoard, Hexagon, Code } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -17,6 +18,7 @@ const TokenScanner = () => {
   const [scanProgress, setScanProgress] = useState(0);
   const [scanPhase, setScanPhase] = useState('');
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; speed: number; delay: number }[]>([]);
+  const [codeLines, setCodeLines] = useState<string[]>([]);
 
   // Gerar partículas para animação futurista
   useEffect(() => {
@@ -36,7 +38,48 @@ const TokenScanner = () => {
     };
 
     generateParticles();
+    generateSmartContractCode();
   }, []);
+
+  // Gerar código de contrato inteligente simulado
+  const generateSmartContractCode = () => {
+    const contractCodeSnippets = [
+      'contract BSCToken {',
+      '    using SafeMath for uint256;',
+      '    address public owner;',
+      '    mapping(address => uint256) balances;',
+      '    uint256 totalSupply = 1000000 * 10**18;',
+      '',
+      '    function transfer(address _to, uint256 _value) public {',
+      '        require(balances[msg.sender] >= _value);',
+      '        balances[msg.sender] = balances[msg.sender].sub(_value);',
+      '        balances[_to] = balances[_to].add(_value);',
+      '    }',
+      '',
+      '    function balanceOf(address _owner) public view returns (uint256) {',
+      '        return balances[_owner];',
+      '    }',
+      '',
+      '    modifier onlyOwner() {',
+      '        require(msg.sender == owner);',
+      '        _;',
+      '    }',
+      '',
+      '    function mint(address _to, uint256 _amount) public onlyOwner {',
+      '        totalSupply = totalSupply.add(_amount);',
+      '        balances[_to] = balances[_to].add(_amount);',
+      '    }',
+      '',
+      '    function burn(uint256 _amount) public {',
+      '        require(balances[msg.sender] >= _amount);',
+      '        balances[msg.sender] = balances[msg.sender].sub(_amount);',
+      '        totalSupply = totalSupply.sub(_amount);',
+      '    }',
+      '}'
+    ];
+    
+    setCodeLines(contractCodeSnippets);
+  };
 
   const handleScan = () => {
     if (!tokenAddress || !tokenAddress.startsWith('0x') || tokenAddress.length !== 42) {
@@ -315,40 +358,136 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
-                {/* Estado de escaneamento - Mantém a funcionalidade atual */}
+                {/* Estado de escaneamento - ENHANCED FUTURISTIC VERSION */}
                 {isScanning && (
-                  <div className="z-10 w-full max-w-md text-center">
-                    <div className="relative h-48 w-48 mx-auto mb-6">
-                      <div className="hexagon bg-bscdark-lighter w-full h-full flex items-center justify-center">
-                        <Radar className="w-16 h-16 text-bscamber animate-pulse-slow" />
-                      </div>
-                      <div className="absolute top-0 left-0 w-full h-full">
-                        <div className="w-full h-full bg-bscamber/5 hexagon animate-pulse-slow"></div>
-                      </div>
-                      <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-                        <div className="absolute bg-bscamber/20 w-full h-1 top-1/2 transform -translate-y-1/2 animate-scan-line"></div>
-                      </div>
-                      
-                      {/* Linhas de código simuladas */}
-                      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-64 h-28 overflow-hidden">
-                        <div className="text-left text-xs font-mono text-bscamber/70 animate-scrolling-text whitespace-nowrap">
-                          {Array.from({ length: 8 }).map((_, idx) => (
-                            <div key={idx} className="py-0.5">
-                              function checkSecurity() {'{'} analyze(token); {'}'}
+                  <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
+                    {/* Código de contrato inteligente com efeito de escaneamento */}
+                    <div className="absolute inset-0 overflow-hidden">
+                      <div className="relative h-full w-full flex items-center justify-center">
+                        <div className="absolute z-10 w-[120%] h-[120%] bg-gradient-radial from-bscamber/10 to-transparent opacity-50 animate-pulse-slow"></div>
+                        
+                        {/* Código do contrato espelhado em 3D */}
+                        <div className="perspective-container w-full h-full relative overflow-hidden flex items-center justify-center">
+                          {/* Código do lado esquerdo */}
+                          <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden pl-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(30deg)'}}>
+                            <pre className="text-xs text-bscamber/80 font-mono">
+                              {codeLines.slice(0, codeLines.length / 2).map((line, idx) => (
+                                <div 
+                                  key={idx} 
+                                  className="whitespace-pre opacity-80 transition-all duration-300"
+                                  style={{
+                                    transform: `translateX(${Math.sin(idx * 0.2) * 5}px)`,
+                                  }}
+                                >
+                                  {line}
+                                </div>
+                              ))}
+                            </pre>
+                          </div>
+                          
+                          {/* Código do lado direito */}
+                          <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden pr-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(-30deg)'}}>
+                            <pre className="text-xs text-bscamber/80 font-mono text-right">
+                              {codeLines.slice(codeLines.length / 2).map((line, idx) => (
+                                <div 
+                                  key={idx} 
+                                  className="whitespace-pre opacity-80 transition-all duration-300"
+                                  style={{
+                                    transform: `translateX(${Math.sin(idx * 0.2) * -5}px)`,
+                                  }}
+                                >
+                                  {line}
+                                </div>
+                              ))}
+                            </pre>
+                          </div>
+                          
+                          {/* Scanner central holográfico */}
+                          <div className="relative z-20">
+                            <div className="hexagon bg-bscdark-darker/80 w-48 h-48 backdrop-blur-md relative glow-effect">
+                              {/* Borda animada do hexágono */}
+                              <div className="absolute inset-0 hexagon border-2 border-bscamber/50 opacity-80" style={{
+                                filter: 'drop-shadow(0 0 8px rgba(243, 186, 47, 0.8))'
+                              }}></div>
+                              
+                              {/* Conteúdo do hexágono */}
+                              <div className="absolute inset-0 hexagon flex flex-col items-center justify-center p-4">
+                                <Radar className="w-16 h-16 text-bscamber animate-pulse-slow" />
+                                
+                                {/* Linhas de escaneamento horizontal */}
+                                <div className="absolute w-full h-full overflow-hidden">
+                                  <div className="absolute h-1 bg-gradient-to-r from-transparent via-bscamber to-transparent w-full opacity-80"
+                                       style={{
+                                         top: `${(scanProgress / 100) * 100}%`,
+                                         animation: 'scan-line 1.5s ease-in-out infinite'
+                                       }}></div>
+                                </div>
+                                
+                                {/* Grade digital com linhas cruzadas */}
+                                <div className="absolute w-full h-full grid grid-cols-6 opacity-40">
+                                  {Array.from({length: 6}).map((_, idx) => (
+                                    <div key={idx} className="h-full border-r border-bscamber/20"></div>
+                                  ))}
+                                </div>
+                                <div className="absolute w-full h-full grid grid-rows-6 opacity-40">
+                                  {Array.from({length: 6}).map((_, idx) => (
+                                    <div key={idx} className="w-full border-b border-bscamber/20"></div>
+                                  ))}
+                                </div>
+                                
+                                {/* Status de escaneamento */}
+                                <div className="mt-4 text-center">
+                                  <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
+                                  <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% completo</div>
+                                  <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
+                                      style={{ width: `${scanProgress}%` }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          ))}
+                          </div>
                         </div>
                       </div>
                     </div>
                     
-                    <h3 className="text-xl font-medium mb-4">{scanPhase}</h3>
-                    <div className="w-full bg-bscdark-lighter h-1.5 rounded-full mb-2">
-                      <div 
-                        className="h-full bg-bscamber rounded-full transition-all duration-300" 
-                        style={{ width: `${scanProgress}%` }}
-                      ></div>
+                    {/* Raios de escaneamento */}
+                    <div className="absolute inset-0 overflow-hidden">
+                      {Array.from({length: 3}).map((_, idx) => (
+                        <div 
+                          key={idx}
+                          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-bscamber/60 to-transparent"
+                          style={{
+                            top: `${15 + idx * 35}%`,
+                            animation: `scan-line ${1 + idx * 0.5}s ease-in-out infinite`,
+                            animationDelay: `${idx * 0.2}s`,
+                            opacity: 0.7
+                          }}
+                        ></div>
+                      ))}
                     </div>
-                    <p className="text-sm text-gray-400">{scanProgress}% completo</p>
+                    
+                    {/* Partículas flutuantes durante o escaneamento */}
+                    <div className="absolute inset-0">
+                      {Array.from({length: 8}).map((_, idx) => (
+                        <div
+                          key={idx}
+                          className="absolute w-1 h-1 rounded-full bg-bscamber"
+                          style={{
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            opacity: 0.6 + Math.random() * 0.4,
+                            animation: `glow 2s infinite alternate, floating ${1 + Math.random() * 3}s infinite alternate ease-in-out`,
+                            animationDelay: `${Math.random() * 2}s`,
+                          }}
+                        ></div>
+                      ))}
+                    </div>
+                    
+                    {/* Efeitos de luz radial */}
+                    <div className="absolute inset-0 bg-gradient-radial from-bscamber/5 via-transparent to-transparent"></div>
                   </div>
                 )}
                 
