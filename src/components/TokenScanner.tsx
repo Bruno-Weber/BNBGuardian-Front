@@ -6,7 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Shield, CircleAlert, CircleCheck, Lock, Scan } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import QuantumCore from './QuantumCore';
+import HackedSphere from './HackedSphere';
 import MatrixRain from './ui/matrix-code';
 
 type RiskLevel = 'low' | 'medium' | 'high' | null;
@@ -302,11 +302,11 @@ const TokenScanner = () => {
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Lado esquerdo - Formulário de entrada */}
               <div className="p-6 border-r border-bscdark-lighter">
-                {/* Quantum Core element above the form */}
+                {/* Hacked Sphere element above the form */}
                 <div className="flex flex-col items-center justify-center mb-8">
-                  <QuantumCore 
+                  <HackedSphere 
                     size="md" 
-                    pulseIntensity="medium"
+                    intensity="medium"
                     className="mb-4 cursor-pointer"
                     isActive={isHovering}
                     onClick={handleScan}
@@ -405,7 +405,7 @@ const TokenScanner = () => {
               
               {/* Lado direito - Visualização futurista */}
               <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px] scanner-idle overflow-hidden">
-                {/* Matrix code background - replacing the anomaly effect */}
+                {/* Matrix code background with yellowish tint */}
                 <div className="absolute inset-0 z-0">
                   <MatrixRain 
                     fontSize={16} 
@@ -440,9 +440,9 @@ const TokenScanner = () => {
                 {/* Default view state */}
                 {!isScanning && !scanComplete && (
                   <div className="text-center z-10 relative">
-                    <QuantumCore 
+                    <HackedSphere 
                       size="lg" 
-                      pulseIntensity="low"
+                      intensity="low"
                       onClick={handleScan}
                       isActive={isHovering}
                       className="mx-auto mb-6"
@@ -498,9 +498,9 @@ const TokenScanner = () => {
                         
                         {/* Scanner central holográfico */}
                         <div className="relative z-20">
-                          <QuantumCore 
+                          <HackedSphere 
                             size="lg" 
-                            pulseIntensity="high"
+                            intensity="high"
                             className="mx-auto perspective-hover"
                           />
                           
@@ -540,9 +540,9 @@ const TokenScanner = () => {
                 {/* Results state */}
                 {scanComplete && (
                   <div className="z-10 w-full max-w-md text-center">
-                    <QuantumCore 
+                    <HackedSphere 
                       size="md"
-                      pulseIntensity={riskLevel === 'low' ? 'low' : riskLevel === 'medium' ? 'medium' : 'high'}
+                      intensity={riskLevel === 'low' ? 'low' : riskLevel === 'medium' ? 'medium' : 'high'}
                       className={cn(
                         "mx-auto mb-4",
                         riskLevel === 'low' && "shadow-[0_0_30px_rgba(74,222,128,0.5)]",
