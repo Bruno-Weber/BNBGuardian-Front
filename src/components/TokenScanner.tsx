@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Shield, CircleAlert, CircleCheck, Lock, Scan, Radar } from 'lucide-react';
+import { Shield, CircleAlert, CircleCheck, Lock, Scan, Radar, Atom, CircuitBoard, Hexagon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -17,6 +16,27 @@ const TokenScanner = () => {
   const [riskLevel, setRiskLevel] = useState<RiskLevel>(null);
   const [scanProgress, setScanProgress] = useState(0);
   const [scanPhase, setScanPhase] = useState('');
+  const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; speed: number; delay: number }[]>([]);
+
+  // Gerar partículas para animação futurista
+  useEffect(() => {
+    const generateParticles = () => {
+      const newParticles = [];
+      for (let i = 0; i < 15; i++) {
+        newParticles.push({
+          id: i,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
+          size: Math.random() * 4 + 1,
+          speed: Math.random() * 2 + 0.5,
+          delay: Math.random() * 5
+        });
+      }
+      setParticles(newParticles);
+    };
+
+    generateParticles();
+  }, []);
 
   const handleScan = () => {
     if (!tokenAddress || !tokenAddress.startsWith('0x') || tokenAddress.length !== 42) {
@@ -212,23 +232,90 @@ const TokenScanner = () => {
                 )}
               </div>
               
-              {/* Lado direito - Visualização de escaneamento */}
-              <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px]">
-                {/* Visualização de IA/Scanner */}
+              {/* Lado direito - Visualização futurista */}
+              <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px] scanner-idle overflow-hidden">
+                {/* Grade hexagonal de fundo */}
                 <div className="hexagon-grid absolute top-0 left-0 w-full h-full opacity-30"></div>
                 
+                {/* Partículas flutuantes */}
+                <div className="floating-particles">
+                  {!isScanning && !scanComplete && particles.map(particle => (
+                    <div 
+                      key={particle.id}
+                      className="particle absolute"
+                      style={{
+                        width: `${particle.size}px`,
+                        height: `${particle.size}px`,
+                        left: `${particle.x}%`,
+                        top: `${particle.y}%`,
+                        opacity: 0.7,
+                        backgroundColor: 'rgba(243, 186, 47, 0.5)',
+                        animation: `glow 3s infinite alternate, floating ${particle.speed}s infinite alternate ease-in-out`,
+                        animationDelay: `${particle.delay}s`,
+                        transform: 'translateY(0px)',
+                      }}
+                    />
+                  ))}
+                </div>
+                
+                {/* Estado de visualização padrão - FUTURISTA */}
                 {!isScanning && !scanComplete && (
-                  <div className="text-center z-10">
-                    <div className="hexagon bg-bscdark-lighter w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-                      <Scan className="w-10 h-10 text-bscamber" />
+                  <div className="text-center z-10 relative">
+                    {/* Anéis orbitais */}
+                    <div className="absolute left-1/2 top-1/2 w-40 h-40 -ml-20 -mt-20">
+                      <div className="orbital-ring absolute w-full h-full"></div>
+                      <div className="orbital-ring absolute w-[120%] h-[120%] -left-[10%] -top-[10%]" style={{animationDuration: '20s', animationDirection: 'reverse'}}></div>
+                      <div className="orbital-ring absolute w-[140%] h-[140%] -left-[20%] -top-[20%]" style={{animationDuration: '25s'}}></div>
                     </div>
-                    <h3 className="text-xl font-medium mb-2">Scanner Pronto</h3>
-                    <p className="text-gray-400 max-w-xs">
-                      Cole um endereço de token no campo ao lado para iniciar a análise de segurança
+                    
+                    {/* Hexágono principal */}
+                    <div className="hexagon bg-bscdark-lighter w-32 h-32 mx-auto mb-6 flex items-center justify-center relative hexagon-pulse">
+                      <div className="absolute inset-0 hexagon bg-bscamber/10 glow-effect"></div>
+                      <div className="absolute inset-0 hexagon bg-gradient-to-br from-bscamber/20 to-transparent"></div>
+                      
+                      {/* Ícone central */}
+                      <div className="relative z-10">
+                        <CircuitBoard className="w-12 h-12 text-bscamber glow-effect" />
+                      </div>
+                      
+                      {/* Raio radar */}
+                      <div className="radar-beam"></div>
+                    </div>
+                    
+                    {/* Elemento de rotação em torno do hexágono */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 rotation-anim">
+                      <div className="absolute top-0 left-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
+                      <div className="absolute bottom-0 left-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
+                      <div className="absolute left-0 top-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
+                      <div className="absolute right-0 top-[calc(50%-4px)] w-2 h-2 rounded-full bg-bscamber/70"></div>
+                    </div>
+                    
+                    {/* Streams de dados virtuais */}
+                    <div className="absolute left-1/4 top-10 h-64 overflow-hidden w-16 opacity-50">
+                      <div className="data-stream">
+                        01010111 10100010 00101010 01010111 10100010 00101010 01010111 10100010 00101010
+                        10101010 01010101 10101010 01010101 10101010 01010101 10101010 01010101
+                      </div>
+                    </div>
+                    
+                    <div className="absolute right-1/4 bottom-10 h-64 overflow-hidden w-16 opacity-50">
+                      <div className="data-stream" style={{animationDelay: '-5s'}}>
+                        10100010 00101010 01010111 10100010 00101010 01010111 10100010 00101010 01010111
+                        01010101 10101010 01010101 10101010 01010101 10101010 01010101 10101010
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-xl font-medium mb-2 text-bscamber gradient-text">Scanner Avançado</h3>
+                    <p className="text-gray-300 max-w-xs relative z-10">
+                      Insira um endereço de token para iniciar a análise de segurança em tempo real
                     </p>
+                    
+                    {/* Efeitos de luz */}
+                    <div className="absolute top-0 left-1/2 w-40 h-96 -ml-20 bg-bscamber/5 rounded-full blur-3xl"></div>
                   </div>
                 )}
                 
+                {/* Estado de escaneamento - Mantém a funcionalidade atual */}
                 {isScanning && (
                   <div className="z-10 w-full max-w-md text-center">
                     <div className="relative h-48 w-48 mx-auto mb-6">
@@ -265,6 +352,7 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
+                {/* Estado de resultados - Mantém a funcionalidade atual */}
                 {scanComplete && (
                   <div className="z-10 w-full max-w-md text-center">
                     <div className="hexagon bg-bscdark-lighter w-24 h-24 mx-auto mb-4 flex items-center justify-center">
