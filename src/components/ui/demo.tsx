@@ -1,12 +1,13 @@
 
 import MatrixRain from "@/components/ui/matrix-code"
+import { HeroVisual } from "./hero"
 
 export function RainTextDemo() {
     return (
         <>
           <MatrixRain 
             fontSize={20}
-            color="#f3ba2f" // Changed to BNB Chain amber color
+            color="#f3ba2f" // BNB Chain amber color
             characters="01"
             fadeOpacity={0.1}
             speed={1.0}
@@ -23,4 +24,20 @@ export function RainTextDemo() {
           </div>
          </>
     )
+}
+
+export function HeroDemo() {
+  return (
+    <div className="min-h-screen bg-bscdark relative overflow-hidden">
+      <HeroVisual primaryColor="rgba(243, 186, 47, 0.6)" />
+      <div className="container mx-auto px-4 py-20 relative z-10 flex flex-col items-center justify-center min-h-screen">
+        <h1 className="text-5xl md:text-6xl font-bold text-center mb-6">
+          Segurança em tokens <span className="gradient-text">BNB Chain</span>
+        </h1>
+        <p className="text-xl text-center text-gray-300 mb-10 max-w-2xl">
+          Escaneie tokens e descubra riscos antes de investir na BNB Smart Chain
+        </p>
+      </div>
+    </div>
+  )
 }
