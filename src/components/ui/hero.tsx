@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -34,26 +33,27 @@ const HeroVisual = React.forwardRef<HTMLDivElement, HeroVisualProps>(
       >
         {gradient && (
           <>
-            {/* Background Logo - Added as requested */}
+            {/* Background Logo - Fixed to avoid distortion */}
             <div className="absolute top-[15%] left-1/2 transform -translate-x-1/2 z-10 opacity-30">
               <img 
-                src="/lovable-uploads/a7df998d-f032-4a4a-aed0-58a20ca3657d.png" 
+                src="/lovable-uploads/4f64c7b6-0b20-4f61-80b4-8526de523646.png" 
                 alt="BNBGuard Logo"
-                className="w-32 h-32 md:w-40 md:h-40"
+                className="w-32 h-32 md:w-40 md:h-40 object-contain"
               />
             </div>
 
+            {/* Keep existing code for blur effect */}
             {blur && (
               <div className="absolute top-0 z-50 h-48 w-screen bg-transparent opacity-10 backdrop-blur-md" />
             )}
 
-            {/* Main glow */}
+            {/* Keep existing code for main glow */}
             <div 
               className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-[-30%] rounded-full opacity-80 blur-3xl" 
               style={{ backgroundColor: primaryColor }}
             />
 
-            {/* Lamp effect */}
+            {/* Keep existing code for lamp effect */}
             <motion.div
               initial={{ width: "8rem" }}
               viewport={{ once: true }}
@@ -63,7 +63,7 @@ const HeroVisual = React.forwardRef<HTMLDivElement, HeroVisualProps>(
               style={{ backgroundColor: primaryColor }}
             />
 
-            {/* Top line */}
+            {/* Keep existing code for top line */}
             <motion.div
               initial={{ width: "15rem" }}
               viewport={{ once: true }}
@@ -73,7 +73,7 @@ const HeroVisual = React.forwardRef<HTMLDivElement, HeroVisualProps>(
               style={{ backgroundColor: primaryColor }}
             />
 
-            {/* Left gradient cone */}
+            {/* Keep existing code for left gradient cone */}
             <motion.div
               initial={{ opacity: 0.5, width: "15rem" }}
               whileInView={{ opacity: 1, width: "30rem" }}
@@ -91,7 +91,7 @@ const HeroVisual = React.forwardRef<HTMLDivElement, HeroVisualProps>(
               <div className="absolute w-40 h-[100%] left-0 bg-bscdark bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
             </motion.div>
 
-            {/* Right gradient cone */}
+            {/* Keep existing code for right gradient cone */}
             <motion.div
               initial={{ opacity: 0.5, width: "15rem" }}
               whileInView={{ opacity: 1, width: "30rem" }}
@@ -109,7 +109,7 @@ const HeroVisual = React.forwardRef<HTMLDivElement, HeroVisualProps>(
               <div className="absolute w-[100%] right-0 bg-bscdark h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
             </motion.div>
             
-            {/* Hexagon outline with amber glow */}
+            {/* Hexagon outline with amber glow - keep but update Logo reference below */}
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <div className="hexagon w-80 h-80 md:w-96 md:h-96 border-4 border-bscamber/30 flex items-center justify-center">
                 <div className="hexagon w-[calc(100%-16px)] h-[calc(100%-16px)] border-2 border-bscamber/20">
