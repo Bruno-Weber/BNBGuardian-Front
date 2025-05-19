@@ -30,11 +30,11 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight max-w-4xl mx-auto">
-            Segurança em tempo real para tokens da <span className="gradient-text">BNB Chain</span>
+            Real-time security for <span className="gradient-text">BNB Chain</span> tokens
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
-            Cole o endereço de qualquer token e descubra os principais riscos antes de interagir com ele.
+            Paste any token address and discover the main risks before interacting with it.
           </p>
           
           <div className="flex flex-col md:flex-row items-center justify-center gap-4">
@@ -46,14 +46,14 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
                 "transition-all duration-300 shadow-lg hover:shadow-bscamber/20 hover:shadow-xl"
               )}
             >
-              Escanear um token
+              Scan a token
             </Button>
             <Button 
               size="lg" 
               variant="outline"
               className="text-lg px-8 py-6 border-bscamber text-bscamber hover:bg-bscamber/10"
             >
-              Saiba mais
+              Learn more
             </Button>
           </div>
         </motion.div>

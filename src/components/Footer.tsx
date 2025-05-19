@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <Logo size="lg" className="mb-4" />
             <p className="text-gray-400 mb-4 max-w-md">
-              Promovendo segurança na Web3, um token de cada vez. Nossa missão é tornar a BNB Chain mais segura para todos.
+              Promoting Web3 security, one token at a time. Our mission is to make the BNB Chain safer for everyone.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-bscamber transition-colors">
@@ -34,34 +34,34 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-medium mb-4">Produtos</h3>
+            <h3 className="text-lg font-medium mb-4">Products</h3>
             <ul className="space-y-3">
               <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Token Scanner</a></li>
               <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">API</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Alertas</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Relatórios</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Alerts</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Reports</a></li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-lg font-medium mb-4">Links</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Sobre nós</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">About Us</a></li>
               <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">FAQ</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Termos de Serviço</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Política de Privacidade</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Contato</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Terms of Service</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-bscamber transition-colors">Contact</a></li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-bscdark-lighter mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            &copy; {year} BSCGuard. Todos os direitos reservados.
+            &copy; {year} BSCGuard. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
-            <a href="#" className="text-sm text-gray-400 hover:text-bscamber transition-colors mr-4">Termos</a>
-            <a href="#" className="text-sm text-gray-400 hover:text-bscamber transition-colors">Privacidade</a>
+            <a href="#" className="text-sm text-gray-400 hover:text-bscamber transition-colors mr-4">Terms</a>
+            <a href="#" className="text-sm text-gray-400 hover:text-bscamber transition-colors">Privacy</a>
           </div>
         </div>
       </div>

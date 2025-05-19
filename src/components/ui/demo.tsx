@@ -32,10 +32,10 @@ export function HeroDemo() {
       <HeroVisual primaryColor="rgba(243, 186, 47, 0.6)" />
       <div className="container mx-auto px-4 py-20 relative z-10 flex flex-col items-center justify-center min-h-screen">
         <h1 className="text-5xl md:text-6xl font-bold text-center mb-6">
-          Segurança em tokens <span className="gradient-text">BNB Chain</span>
+          Security for <span className="gradient-text">BNB Chain</span> tokens
         </h1>
         <p className="text-xl text-center text-gray-300 mb-10 max-w-2xl">
-          Escaneie tokens e descubra riscos antes de investir na BNB Smart Chain
+          Scan tokens and discover risks before investing in BNB Smart Chain
         </p>
       </div>
     </div>
