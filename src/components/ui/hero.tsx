@@ -34,6 +34,15 @@ const HeroVisual = React.forwardRef<HTMLDivElement, HeroVisualProps>(
       >
         {gradient && (
           <>
+            {/* Background Logo - Added as requested */}
+            <div className="absolute top-[15%] left-1/2 transform -translate-x-1/2 z-10 opacity-30">
+              <img 
+                src="/lovable-uploads/a7df998d-f032-4a4a-aed0-58a20ca3657d.png" 
+                alt="BNBGuard Logo"
+                className="w-32 h-32 md:w-40 md:h-40"
+              />
+            </div>
+
             {blur && (
               <div className="absolute top-0 z-50 h-48 w-screen bg-transparent opacity-10 backdrop-blur-md" />
             )}
