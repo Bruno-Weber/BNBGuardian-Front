@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import HeroSection from '@/components/HeroSection';
 import TokenScanner from '@/components/TokenScanner';
 import HowItWorks from '@/components/HowItWorks';
-import ProPlans from '@/components/ProPlans';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -22,8 +21,6 @@ const Index = () => {
       </div>
       
       <HowItWorks />
-      
-      <ProPlans />
       
       <Footer />
     </div>
