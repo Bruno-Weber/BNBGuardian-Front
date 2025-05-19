@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,7 +24,7 @@ const TokenScanner = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [pulse, setPulse] = useState(false);
 
-  // Gerar partículas para animação futurista
+  // Generate particles for futuristic animation
   useEffect(() => {
     const generateParticles = () => {
       const newParticles = [];
@@ -43,7 +44,7 @@ const TokenScanner = () => {
     generateParticles();
     generateSmartContractCode();
     
-    // Efeito de pulso para o emblema interativo
+    // Pulse effect for interactive badge
     const pulseInterval = setInterval(() => {
       setPulse(prev => !prev);
     }, 2000);
@@ -51,7 +52,7 @@ const TokenScanner = () => {
     return () => clearInterval(pulseInterval);
   }, []);
 
-  // Gerar código de contrato inteligente simulado
+  // Generate simulated smart contract code
   const generateSmartContractCode = () => {
     const contractCodeSnippets = [
       'contract BSCToken {',
@@ -93,7 +94,7 @@ const TokenScanner = () => {
 
   const handleScan = () => {
     if (!tokenAddress || !tokenAddress.startsWith('0x') || tokenAddress.length !== 42) {
-      toast.error('Por favor, insira um endereço de token válido');
+      toast.error('Please enter a valid token address');
       return;
     }
 
@@ -102,15 +103,15 @@ const TokenScanner = () => {
     setScanComplete(false);
     setRiskLevel(null);
     setScanProgress(0);
-    setScanPhase('Iniciando análise de segurança...');
+    setScanPhase('Starting security analysis...');
     
     // Simulate scanning phases
     const scanPhases = [
-      { phase: 'Verificando estrutura do contrato...', progress: 20 },
-      { phase: 'Analisando funções de risco...', progress: 40 },
-      { phase: 'Verificando permissões de proprietário...', progress: 60 },
-      { phase: 'Analisando padrões de código malicioso...', progress: 80 },
-      { phase: 'Finalizando verificação de segurança...', progress: 95 }
+      { phase: 'Checking contract structure...', progress: 20 },
+      { phase: 'Analyzing risk functions...', progress: 40 },
+      { phase: 'Verifying owner permissions...', progress: 60 },
+      { phase: 'Analyzing malicious code patterns...', progress: 80 },
+      { phase: 'Finalizing security verification...', progress: 95 }
     ];
     
     // Simulate scan progress
@@ -124,14 +125,14 @@ const TokenScanner = () => {
       } else {
         clearInterval(scanInterval);
         setScanProgress(100);
-        setScanPhase('Análise concluída!');
+        setScanPhase('Analysis complete!');
         
         // Complete the scan after a short delay
         setTimeout(() => {
           setIsScanning(false);
           setScanComplete(true);
           
-          // Simulando um resultado aleatório para demonstração
+          // Simulating a random result for demonstration
           const randomRisk = ['low', 'medium', 'high'][Math.floor(Math.random() * 3)] as RiskLevel;
           setRiskLevel(randomRisk);
         }, 800);
@@ -163,23 +164,23 @@ const TokenScanner = () => {
   const getRisks = () => {
     if (riskLevel === 'low') {
       return [
-        "Funções de token bem estruturadas",
-        "Sem vulnerabilidades de re-entrância",
-        "Sem taxa de transação oculta"
+        "Well-structured token functions",
+        "No re-entrancy vulnerabilities",
+        "No hidden transaction fee"
       ];
     }
     if (riskLevel === 'medium') {
       return [
-        "Permissões de proprietário não verificadas",
-        "Possível risco de centralização",
-        "Funções de pausa detectadas"
+        "Unverified owner permissions",
+        "Possible centralization risk",
+        "Pause functions detected"
       ];
     }
     if (riskLevel === 'high') {
       return [
-        "Funções de honeypot detectadas",
-        "Função de taxa oculta detectada",
-        "Permissões de roubo detectadas"
+        "Honeypot functions detected",
+        "Hidden fee function detected",
+        "Theft permissions detected"
       ];
     }
     return [];
@@ -252,7 +253,7 @@ const TokenScanner = () => {
     }
   `;
 
-  // Função para gerar partículas de dados aleatórias
+  // Function to generate random data particles
   const renderDataParticles = () => {
     const particles = [];
     for (let i = 0; i < 20; i++) {
@@ -267,7 +268,7 @@ const TokenScanner = () => {
     return particles;
   };
 
-  // Renderizar linhas de anomalia para o fundo
+  // Render anomaly lines for background
   const renderAnomalyLines = () => {
     const lines = [];
     for (let i = 0; i < 10; i++) {
@@ -291,16 +292,16 @@ const TokenScanner = () => {
       <style>{anomalyStyles}</style>
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Escaneie qualquer token da BNB Chain</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Scan any BNB Chain token</h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            Nossa tecnologia avançada analisa automaticamente os contratos inteligentes para detectar vulnerabilidades e riscos potenciais.
+            Our advanced technology automatically analyzes smart contracts to detect vulnerabilities and potential risks.
           </p>
         </div>
 
         <Card className="bg-bscdark-light border-bscdark-lighter shadow-xl overflow-hidden">
           <CardContent className="p-0">
             <div className="grid grid-cols-1 md:grid-cols-2">
-              {/* Lado esquerdo - Formulário de entrada */}
+              {/* Left side - Input form */}
               <div className="p-6 border-r border-bscdark-lighter">
                 {/* Hacked Sphere element above the form */}
                 <div className="flex flex-col items-center justify-center mb-8">
@@ -312,17 +313,17 @@ const TokenScanner = () => {
                     onClick={handleScan}
                   />
                   <p className="text-center text-sm text-bscamber">
-                    Scanner IA Quântico - <span className="text-gray-400">Clique para analisar</span>
+                    Quantum AI Scanner - <span className="text-gray-400">Click to analyze</span>
                   </p>
                 </div>
 
                 <div className="mb-6">
                   <h3 className="text-xl font-semibold mb-4 flex items-center">
                     <Shield className="w-5 h-5 mr-2 text-bscamber" />
-                    Scanner de Segurança
+                    Security Scanner
                   </h3>
                   <p className="text-sm text-gray-400 mb-6">
-                    Cole o endereço de contrato do token para iniciar a análise de segurança
+                    Paste the token contract address to start the security analysis
                   </p>
                 </div>
                 
@@ -339,7 +340,7 @@ const TokenScanner = () => {
                     onClick={handleScan}
                     disabled={isScanning}
                   >
-                    {isScanning ? 'Escaneando...' : 'Escanear Token'}
+                    {isScanning ? 'Scanning...' : 'Scan Token'}
                   </Button>
                 </div>
 
@@ -348,7 +349,7 @@ const TokenScanner = () => {
                   <div className="mt-6">
                     <div className="mb-4">
                       <div className="flex justify-between mb-2">
-                        <span className="text-sm font-medium">Score de Segurança</span>
+                        <span className="text-sm font-medium">Security Score</span>
                         <span className={`text-sm font-bold ${getRiskColor()}`}>{getRiskScore()}/100</span>
                       </div>
                       <div className="relative">
@@ -359,7 +360,7 @@ const TokenScanner = () => {
                     <div className="mb-4">
                       <h4 className="text-md font-semibold mb-2 flex items-center">
                         <CircleAlert className="w-5 h-5 mr-2 text-bscamber" />
-                        Nível de Risco
+                        Risk Level
                       </h4>
                       <div className={cn(
                         "px-4 py-2 rounded-lg text-sm font-medium",
@@ -367,16 +368,16 @@ const TokenScanner = () => {
                         riskLevel === 'medium' && "bg-yellow-950/30 text-yellow-400 border-l-4 border-yellow-500",
                         riskLevel === 'high' && "bg-red-950/30 text-red-400 border-l-4 border-red-500",
                       )}>
-                        {riskLevel === 'low' && 'Risco Baixo - Token provavelmente seguro'}
-                        {riskLevel === 'medium' && 'Risco Médio - Use com cautela'}
-                        {riskLevel === 'high' && 'Risco Alto - Potencialmente perigoso'}
+                        {riskLevel === 'low' && 'Low Risk - Token likely safe'}
+                        {riskLevel === 'medium' && 'Medium Risk - Use with caution'}
+                        {riskLevel === 'high' && 'High Risk - Potentially dangerous'}
                       </div>
                     </div>
                     
                     <div>
                       <h4 className="text-md font-semibold mb-2 flex items-center">
                         <CircleCheck className="w-5 h-5 mr-2 text-bscamber" />
-                        Resultados da Análise
+                        Analysis Results
                       </h4>
                       <ul className="space-y-1">
                         {getRisks().map((risk, index) => (
@@ -395,7 +396,7 @@ const TokenScanner = () => {
                       {riskLevel === 'low' && (
                         <div className="mt-3 flex items-center text-xs text-green-400">
                           <Lock className="w-3 h-3 mr-1" />
-                          <span>Contrato verificado e seguro</span>
+                          <span>Verified and secure contract</span>
                         </div>
                       )}
                     </div>
@@ -403,7 +404,7 @@ const TokenScanner = () => {
                 )}
               </div>
               
-              {/* Lado direito - Visualização futurista */}
+              {/* Right side - Futuristic visualization */}
               <div className="relative bg-bscdark-dark p-6 flex flex-col items-center justify-center min-h-[400px] scanner-idle overflow-hidden">
                 {/* Matrix code background with yellowish tint */}
                 <div className="absolute inset-0 z-0">
@@ -416,7 +417,7 @@ const TokenScanner = () => {
                   />
                 </div>
                 
-                {/* Partículas flutuantes */}
+                {/* Floating particles */}
                 <div className="floating-particles">
                   {!isScanning && !scanComplete && particles.map(particle => (
                     <div 
@@ -449,7 +450,7 @@ const TokenScanner = () => {
                     />
                     
                     <p className="text-gray-300 max-w-xs relative z-10 mt-6">
-                      Utilize o Scanner IA Quântico para analisar seu token de forma segura
+                      Use the Quantum AI Scanner to analyze your token safely
                     </p>
                   </div>
                 )}
@@ -462,7 +463,7 @@ const TokenScanner = () => {
                       <div className="relative h-full w-full flex items-center justify-center">
                         <div className="absolute z-10 w-[120%] h-[120%] bg-gradient-radial from-bscamber/10 to-transparent opacity-50 animate-pulse-slow"></div>
                         
-                        {/* Code do lado esquerdo */}
+                        {/* Code on left side */}
                         <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden pl-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(30deg)'}}>
                           <pre className="text-xs text-bscamber/80 font-mono">
                             {codeLines.slice(0, codeLines.length / 2).map((line, idx) => (
@@ -479,7 +480,7 @@ const TokenScanner = () => {
                           </pre>
                         </div>
                         
-                        {/* Code do lado direito */}
+                        {/* Code on right side */}
                         <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden pr-2 py-4 opacity-70" style={{transform: 'perspective(1000px) rotateY(-30deg)'}}>
                           <pre className="text-xs text-bscamber/80 font-mono text-right">
                             {codeLines.slice(codeLines.length / 2).map((line, idx) => (
@@ -496,7 +497,7 @@ const TokenScanner = () => {
                           </pre>
                         </div>
                         
-                        {/* Scanner central holográfico */}
+                        {/* Central holographic scanner */}
                         <div className="relative z-20">
                           <HackedSphere 
                             size="lg" 
@@ -504,10 +505,10 @@ const TokenScanner = () => {
                             className="mx-auto perspective-hover"
                           />
                           
-                          {/* Status de escaneamento */}
+                          {/* Scan status */}
                           <div className="absolute bottom-[-40px] w-full text-center">
                             <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
-                            <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% completo</div>
+                            <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% complete</div>
                             <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden mx-auto">
                               <div 
                                 className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
@@ -550,9 +551,9 @@ const TokenScanner = () => {
                         riskLevel === 'high' && "shadow-[0_0_30px_rgba(239,68,68,0.5)]",
                       )}
                     />
-                    <h3 className="text-xl font-medium mb-2">Análise Concluída</h3>
+                    <h3 className="text-xl font-medium mb-2">Analysis Complete</h3>
                     <p className="text-gray-400 mb-6">
-                      Visualize os resultados detalhados da análise no painel ao lado
+                      View detailed analysis results in the panel to the left
                     </p>
                     
                     <div className={cn(
@@ -561,9 +562,9 @@ const TokenScanner = () => {
                       riskLevel === 'medium' && "bg-yellow-950/30 text-yellow-400 border border-yellow-500/30",
                       riskLevel === 'high' && "bg-red-950/30 text-red-400 border border-red-500/30",
                     )}>
-                      {riskLevel === 'low' && 'Este token passou em todas as verificações de segurança principais'}
-                      {riskLevel === 'medium' && 'Este token tem alguns pontos de atenção que exigem cautela'}
-                      {riskLevel === 'high' && 'Este token apresenta riscos significativos de segurança'}
+                      {riskLevel === 'low' && 'This token has passed all major security checks'}
+                      {riskLevel === 'medium' && 'This token has some points of concern that require caution'}
+                      {riskLevel === 'high' && 'This token presents significant security risks'}
                     </div>
                   </div>
                 )}
