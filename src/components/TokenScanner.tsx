@@ -4,11 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Shield, CircleAlert, CircleCheck, Lock, Scan } from 'lucide-react';
+import { Shield, CircleAlert, CircleCheck, Lock, Scan, ShieldCheck, ShieldAlert } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { toast } from '@/hooks/use-toast';
 import HackedSphere from './HackedSphere';
 import MatrixRain from './ui/matrix-code';
+import { Badge } from './ui/badge';
+import { Alert, AlertTitle, AlertDescription } from './ui/alert';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
 
 type RiskLevel = 'low' | 'medium' | 'high' | null;
 
@@ -23,7 +26,9 @@ const TokenScanner = () => {
   const [codeLines, setCodeLines] = useState<string[]>([]);
   const [isHovering, setIsHovering] = useState(false);
   const [pulse, setPulse] = useState(false);
-
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [securityScore, setSecurityScore] = useState(0);
+  
   // Generate particles for futuristic animation
   useEffect(() => {
     const generateParticles = () => {
@@ -94,7 +99,11 @@ const TokenScanner = () => {
 
   const handleScan = () => {
     if (!tokenAddress || !tokenAddress.startsWith('0x') || tokenAddress.length !== 42) {
-      toast.error('Please enter a valid token address');
+      toast({
+        title: "Invalid Token Address",
+        description: "Please enter a valid token address",
+        variant: "destructive"
+      });
       return;
     }
 
@@ -104,6 +113,7 @@ const TokenScanner = () => {
     setRiskLevel(null);
     setScanProgress(0);
     setScanPhase('Starting security analysis...');
+    setShowDashboard(false);
     
     // Simulate scanning phases
     const scanPhases = [
@@ -135,9 +145,28 @@ const TokenScanner = () => {
           // Simulating a random result for demonstration
           const randomRisk = ['low', 'medium', 'high'][Math.floor(Math.random() * 3)] as RiskLevel;
           setRiskLevel(randomRisk);
+          
+          // Generate security score based on risk level
+          const score = calculateSecurityScore(randomRisk);
+          setSecurityScore(score);
+          
+          // Show security dashboard
+          setTimeout(() => {
+            setShowDashboard(true);
+          }, 500);
         }, 800);
       }
     }, 800);
+  };
+
+  // Calculate security score based on risk level
+  const calculateSecurityScore = (risk: RiskLevel): number => {
+    switch(risk) {
+      case 'low': return Math.floor(Math.random() * 15) + 85; // 85-100
+      case 'medium': return Math.floor(Math.random() * 30) + 50; // 50-80
+      case 'high': return Math.floor(Math.random() * 45) + 5; // 5-50
+      default: return 50;
+    }
   };
 
   const getRiskColor = () => {
@@ -148,17 +177,25 @@ const TokenScanner = () => {
   };
 
   const getRiskScore = () => {
-    if (riskLevel === 'low') return Math.floor(Math.random() * 20) + 80;
-    if (riskLevel === 'medium') return Math.floor(Math.random() * 30) + 50;
-    if (riskLevel === 'high') return Math.floor(Math.random() * 40) + 10;
-    return 0;
+    return securityScore;
   };
 
   const getRiskPercentage = () => {
-    if (riskLevel === 'low') return 90;
-    if (riskLevel === 'medium') return 50;
-    if (riskLevel === 'high') return 15;
-    return 0;
+    return securityScore;
+  };
+
+  const getScoreClass = () => {
+    if (securityScore >= 85) return "text-green-400";
+    if (securityScore >= 50) return "text-yellow-400";
+    return "text-red-400";
+  };
+
+  const getScoreDescription = () => {
+    if (securityScore >= 85) return "Secure";
+    if (securityScore >= 70) return "Mostly Secure";
+    if (securityScore >= 50) return "Moderate Risk";
+    if (securityScore >= 30) return "High Risk";
+    return "Critical Risk";
   };
 
   const getRisks = () => {
@@ -181,6 +218,24 @@ const TokenScanner = () => {
         "Honeypot functions detected",
         "Hidden fee function detected",
         "Theft permissions detected"
+      ];
+    }
+    return [];
+  };
+
+  const getBenefits = () => {
+    if (riskLevel === 'low') {
+      return [
+        "Secure contract structure",
+        "Transparent ownership",
+        "No malicious functions detected"
+      ];
+    }
+    if (riskLevel === 'medium') {
+      return [
+        "Basic security measures",
+        "Standard token implementation",
+        "Functional trading capabilities"
       ];
     }
     return [];
@@ -539,7 +594,7 @@ const TokenScanner = () => {
                 )}
                 
                 {/* Results state */}
-                {scanComplete && (
+                {scanComplete && !showDashboard && (
                   <div className="z-10 w-full max-w-md text-center">
                     <HackedSphere 
                       size="md"
@@ -566,7 +621,180 @@ const TokenScanner = () => {
                       {riskLevel === 'medium' && 'This token has some points of concern that require caution'}
                       {riskLevel === 'high' && 'This token presents significant security risks'}
                     </div>
+                    
+                    <Button
+                      onClick={() => setShowDashboard(true)}
+                      className="mt-6 bg-bscamber hover:bg-bscamber-light text-black"
+                    >
+                      View Security Dashboard
+                    </Button>
                   </div>
+                )}
+                
+                {/* Security Dashboard State */}
+                {showDashboard && (
+                  <Dialog open={showDashboard} onOpenChange={setShowDashboard}>
+                    <DialogContent className="bg-bscdark-light border-bscdark-lighter text-white max-w-3xl">
+                      <DialogHeader>
+                        <DialogTitle className="text-2xl text-center mb-2">Security Dashboard</DialogTitle>
+                        <DialogDescription className="text-gray-400 text-center">
+                          Comprehensive security analysis for token at {tokenAddress.substring(0, 10)}...{tokenAddress.substring(tokenAddress.length - 10)}
+                        </DialogDescription>
+                      </DialogHeader>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Security Score Card */}
+                        <div className="bg-bscdark p-6 rounded-xl border border-bscdark-lighter">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-medium">Security Score</h3>
+                            <Badge className={cn(
+                              securityScore >= 85 && "bg-green-500/20 text-green-400 border-green-500/30",
+                              securityScore >= 50 && securityScore < 85 && "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                              securityScore < 50 && "bg-red-500/20 text-red-400 border-red-500/30"
+                            )}>
+                              {getScoreDescription()}
+                            </Badge>
+                          </div>
+                          
+                          <div className="flex justify-center items-center mb-6">
+                            <div className="relative flex items-center justify-center w-48 h-48">
+                              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                <circle 
+                                  cx="50" cy="50" r="45" 
+                                  fill="transparent" 
+                                  stroke="#222" 
+                                  strokeWidth="8" 
+                                />
+                                <circle 
+                                  cx="50" cy="50" r="45" 
+                                  fill="transparent" 
+                                  stroke={securityScore >= 85 ? "#4ade80" : securityScore >= 50 ? "#facc15" : "#ef4444"} 
+                                  strokeWidth="8" 
+                                  strokeDasharray={`${2 * Math.PI * 45 * securityScore / 100} ${2 * Math.PI * 45}`} 
+                                  className="transition-all duration-1000 ease-out"
+                                />
+                              </svg>
+                              <div className="absolute flex flex-col items-center justify-center">
+                                <span className={`text-4xl font-bold ${getScoreClass()}`}>{securityScore}</span>
+                                <span className="text-sm text-gray-400">out of 100</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <Alert className={cn(
+                            "border mb-4",
+                            securityScore >= 85 && "border-green-500/30 bg-green-500/10",
+                            securityScore >= 50 && securityScore < 85 && "border-yellow-500/30 bg-yellow-500/10",
+                            securityScore < 50 && "border-red-500/30 bg-red-500/10"
+                          )}>
+                            <div className="flex items-start">
+                              {securityScore >= 85 ? (
+                                <ShieldCheck className="h-5 w-5 mr-2 text-green-400" />
+                              ) : securityScore >= 50 ? (
+                                <Shield className="h-5 w-5 mr-2 text-yellow-400" />
+                              ) : (
+                                <ShieldAlert className="h-5 w-5 mr-2 text-red-400" />
+                              )}
+                              <div>
+                                <AlertTitle className={cn(
+                                  securityScore >= 85 && "text-green-400",
+                                  securityScore >= 50 && securityScore < 85 && "text-yellow-400",
+                                  securityScore < 50 && "text-red-400"
+                                )}>
+                                  {securityScore >= 85 ? "High Security Score" : 
+                                   securityScore >= 50 ? "Moderate Security Score" : 
+                                   "Low Security Score"}
+                                </AlertTitle>
+                                <AlertDescription className="text-gray-300">
+                                  {securityScore >= 85 ? 
+                                    "This token appears to be safe based on our security analysis." : 
+                                    securityScore >= 50 ? 
+                                    "This token has some security concerns you should be aware of." : 
+                                    "This token has significant security risks. Proceed with caution."}
+                                </AlertDescription>
+                              </div>
+                            </div>
+                          </Alert>
+                        </div>
+                        
+                        {/* Security Analysis */}
+                        <div className="bg-bscdark p-6 rounded-xl border border-bscdark-lighter">
+                          <h3 className="text-xl font-medium mb-4">Security Analysis</h3>
+                          
+                          <div className="space-y-4">
+                            {/* Risk Indicators */}
+                            <div>
+                              <h4 className="text-base font-medium mb-2 flex items-center">
+                                <Shield className="w-4 h-4 mr-2 text-bscamber" />
+                                Risk Indicators
+                              </h4>
+                              <ul className="space-y-2">
+                                {getRisks().map((risk, index) => (
+                                  <li key={`risk-${index}`} className="flex items-start bg-bscdark-lighter p-2 rounded-md">
+                                    <span className={cn(
+                                      "w-2 h-2 rounded-full mt-1.5 mr-2",
+                                      riskLevel === 'low' && "bg-green-400",
+                                      riskLevel === 'medium' && "bg-yellow-400",
+                                      riskLevel === 'high' && "bg-red-400",
+                                    )}></span>
+                                    <span className="text-sm">{risk}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                            
+                            {/* Security Features */}
+                            {(riskLevel === 'low' || riskLevel === 'medium') && (
+                              <div>
+                                <h4 className="text-base font-medium mb-2 flex items-center">
+                                  <ShieldCheck className="w-4 h-4 mr-2 text-green-400" />
+                                  Security Features
+                                </h4>
+                                <ul className="space-y-2">
+                                  {getBenefits().map((benefit, index) => (
+                                    <li key={`benefit-${index}`} className="flex items-start bg-green-950/30 p-2 rounded-md">
+                                      <CircleCheck className="w-4 h-4 mr-2 text-green-400 shrink-0" />
+                                      <span className="text-sm">{benefit}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            
+                            {/* Contract Information */}
+                            <div>
+                              <h4 className="text-base font-medium mb-2">Contract Information</h4>
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-sm bg-bscdark-lighter p-2 rounded-md">
+                                  <span className="text-gray-400">Contract Type:</span>
+                                  <span>BEP-20</span>
+                                </div>
+                                <div className="flex justify-between text-sm bg-bscdark-lighter p-2 rounded-md">
+                                  <span className="text-gray-400">Compiler Version:</span>
+                                  <span>v0.8.17</span>
+                                </div>
+                                <div className="flex justify-between text-sm bg-bscdark-lighter p-2 rounded-md">
+                                  <span className="text-gray-400">Verification Status:</span>
+                                  <span className={riskLevel === 'low' ? "text-green-400" : "text-yellow-400"}>
+                                    {riskLevel === 'low' ? "Verified" : "Partially Verified"}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 flex justify-center">
+                        <Button
+                          onClick={() => setShowDashboard(false)}
+                          className="bg-bscamber hover:bg-bscamber-light text-black"
+                        >
+                          Return to Token Scanner
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 )}
               </div>
             </div>
