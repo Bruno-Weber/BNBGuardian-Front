@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -241,7 +240,7 @@ const TokenScanner = () => {
     return [];
   };
 
-  // CSS for anomaly background effect
+  // CSS for anomaly background effect with enhanced glow
   const anomalyStyles = `
     .anomaly-bg {
       position: absolute;
@@ -304,6 +303,52 @@ const TokenScanner = () => {
       100% {
         opacity: 0;
         transform: translateY(10px);
+      }
+    }
+    
+    /* Enhanced glow effects for analysis results */
+    .glow-safe {
+      box-shadow: 0 0 40px 5px rgba(74, 222, 128, 0.6);
+      animation: pulse-safe 2s infinite alternate;
+      border-radius: 50%;
+    }
+    
+    .glow-warning {
+      box-shadow: 0 0 40px 5px rgba(250, 204, 21, 0.6);
+      animation: pulse-warning 2s infinite alternate;
+      border-radius: 50%;
+    }
+    
+    .glow-danger {
+      box-shadow: 0 0 40px 5px rgba(239, 68, 68, 0.7);
+      animation: pulse-danger 2s infinite alternate;
+      border-radius: 50%;
+    }
+    
+    @keyframes pulse-safe {
+      0%, 100% {
+        box-shadow: 0 0 30px 5px rgba(74, 222, 128, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 50px 10px rgba(74, 222, 128, 0.8);
+      }
+    }
+    
+    @keyframes pulse-warning {
+      0%, 100% {
+        box-shadow: 0 0 30px 5px rgba(250, 204, 21, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 50px 10px rgba(250, 204, 21, 0.8);
+      }
+    }
+    
+    @keyframes pulse-danger {
+      0%, 100% {
+        box-shadow: 0 0 30px 5px rgba(239, 68, 68, 0.7);
+      }
+      50% {
+        box-shadow: 0 0 50px 10px rgba(239, 68, 68, 0.9);
       }
     }
   `;
@@ -593,38 +638,55 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
-                {/* Results state */}
+                {/* Results state - Enhanced with better visual feedback */}
                 {scanComplete && !showDashboard && (
                   <div className="z-10 w-full max-w-md text-center">
-                    <HackedSphere 
-                      size="md"
-                      intensity={riskLevel === 'low' ? 'low' : riskLevel === 'medium' ? 'medium' : 'high'}
-                      className={cn(
-                        "mx-auto mb-4",
-                        riskLevel === 'low' && "shadow-[0_0_30px_rgba(74,222,128,0.5)]",
-                        riskLevel === 'medium' && "shadow-[0_0_30px_rgba(250,204,21,0.5)]",
-                        riskLevel === 'high' && "shadow-[0_0_30px_rgba(239,68,68,0.5)]",
-                      )}
-                    />
-                    <h3 className="text-xl font-medium mb-2">Analysis Complete</h3>
-                    <p className="text-gray-400 mb-6">
-                      View detailed analysis results in the panel to the left
-                    </p>
+                    <div className={cn(
+                      "relative inline-block",
+                      riskLevel === 'low' && "glow-safe",
+                      riskLevel === 'medium' && "glow-warning",
+                      riskLevel === 'high' && "glow-danger",
+                    )}>
+                      <HackedSphere 
+                        size="lg"
+                        intensity={riskLevel === 'low' ? 'low' : riskLevel === 'medium' ? 'medium' : 'high'}
+                      />
+                    </div>
+                    
+                    <h3 className="text-2xl font-medium my-4">Analysis Complete</h3>
                     
                     <div className={cn(
-                      "px-4 py-3 rounded-lg text-center font-medium max-w-xs mx-auto",
-                      riskLevel === 'low' && "bg-green-950/30 text-green-400 border border-green-500/30",
-                      riskLevel === 'medium' && "bg-yellow-950/30 text-yellow-400 border border-yellow-500/30",
-                      riskLevel === 'high' && "bg-red-950/30 text-red-400 border border-red-500/30",
+                      "px-6 py-4 rounded-lg text-center font-medium max-w-xs mx-auto mb-6",
+                      riskLevel === 'low' && "bg-green-950/40 text-green-400 border border-green-500/50",
+                      riskLevel === 'medium' && "bg-yellow-950/40 text-yellow-400 border border-yellow-500/50",
+                      riskLevel === 'high' && "bg-red-950/40 text-red-400 border border-red-500/50",
                     )}>
-                      {riskLevel === 'low' && 'This token has passed all major security checks'}
-                      {riskLevel === 'medium' && 'This token has some points of concern that require caution'}
-                      {riskLevel === 'high' && 'This token presents significant security risks'}
+                      {riskLevel === 'low' && (
+                        <div className="flex flex-col items-center">
+                          <CircleCheck className="w-8 h-8 text-green-400 mb-2" />
+                          <span>Token Approved</span>
+                          <span className="text-sm mt-1 text-green-300">This token has passed all major security checks</span>
+                        </div>
+                      )}
+                      {riskLevel === 'medium' && (
+                        <div className="flex flex-col items-center">
+                          <Shield className="w-8 h-8 text-yellow-400 mb-2" />
+                          <span>Proceed with Caution</span>
+                          <span className="text-sm mt-1 text-yellow-300">This token has some points of concern</span>
+                        </div>
+                      )}
+                      {riskLevel === 'high' && (
+                        <div className="flex flex-col items-center">
+                          <ShieldAlert className="w-8 h-8 text-red-400 mb-2" />
+                          <span>Token Rejected</span>
+                          <span className="text-sm mt-1 text-red-300">This token presents significant security risks</span>
+                        </div>
+                      )}
                     </div>
                     
                     <Button
                       onClick={() => setShowDashboard(true)}
-                      className="mt-6 bg-bscamber hover:bg-bscamber-light text-black"
+                      className="bg-bscamber hover:bg-bscamber-light text-black font-medium"
                     >
                       View Security Dashboard
                     </Button>
