@@ -395,6 +395,15 @@ const TokenScanner = () => {
     return lines;
   };
 
+  // Fix dialog behavior for mobile
+  const handleDialogClose = () => {
+    setShowDashboard(false);
+    // Reset states to avoid mobile interaction issues
+    setTimeout(() => {
+      setScanComplete(true);
+    }, 100);
+  };
+
   return (
     <section id="scanner" className="py-20 px-4">
       <style>{anomalyStyles}</style>
@@ -709,20 +718,20 @@ const TokenScanner = () => {
                 
                 {/* Security Dashboard State */}
                 {showDashboard && (
-                  <Dialog open={showDashboard} onOpenChange={setShowDashboard}>
-                    <DialogContent className="bg-bscdark-light border-bscdark-lighter text-white max-w-3xl">
+                  <Dialog open={showDashboard} onOpenChange={handleDialogClose}>
+                    <DialogContent className="bg-bscdark-light border-bscdark-lighter text-white max-w-[95vw] md:max-w-3xl h-[80vh] md:h-auto overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle className="text-2xl text-center mb-2">Security Dashboard</DialogTitle>
                         <DialogDescription className="text-gray-400 text-center">
-                          Comprehensive security analysis for token at {tokenAddress.substring(0, 10)}...{tokenAddress.substring(tokenAddress.length - 10)}
+                          Comprehensive security analysis for token at {tokenAddress.substring(0, 6)}...{tokenAddress.substring(tokenAddress.length - 6)}
                         </DialogDescription>
                       </DialogHeader>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 overflow-y-auto pb-4">
                         {/* Security Score Card with colored HackedSphere */}
-                        <div className="bg-bscdark p-6 rounded-xl border border-bscdark-lighter">
+                        <div className="bg-bscdark p-4 md:p-6 rounded-xl border border-bscdark-lighter">
                           <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-medium">Security Score</h3>
+                            <h3 className="text-lg md:text-xl font-medium">Security Score</h3>
                             <Badge className={cn(
                               securityScore >= 80 && "bg-green-500/20 text-green-400 border-green-500/30",
                               securityScore >= 65 && securityScore < 80 && "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
@@ -734,7 +743,7 @@ const TokenScanner = () => {
                           </div>
                           
                           <div className="flex justify-center items-center mb-6">
-                            <div className="relative flex items-center justify-center w-48 h-48">
+                            <div className="relative flex items-center justify-center w-36 h-36 md:w-48 md:h-48">
                               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                                 <circle 
                                   cx="50" cy="50" r="45" 
@@ -758,7 +767,7 @@ const TokenScanner = () => {
                               </svg>
                               <div className="absolute flex flex-col items-center justify-center">
                                 <span className={cn(
-                                  "text-4xl font-bold",
+                                  "text-3xl md:text-4xl font-bold",
                                   securityScore >= 80 && "text-green-400",
                                   securityScore >= 65 && securityScore < 80 && "text-yellow-400",
                                   securityScore >= 50 && securityScore < 65 && "text-orange-400",
@@ -766,7 +775,7 @@ const TokenScanner = () => {
                                 )}>
                                   {securityScore}
                                 </span>
-                                <span className="text-sm text-gray-400">out of 100</span>
+                                <span className="text-xs md:text-sm text-gray-400">out of 100</span>
                               </div>
                             </div>
                           </div>
@@ -780,13 +789,13 @@ const TokenScanner = () => {
                           )}>
                             <div className="flex items-start">
                               {securityScore >= 80 ? (
-                                <ShieldCheck className="h-5 w-5 mr-2 text-green-400" />
+                                <ShieldCheck className="h-5 w-5 mr-2 text-green-400 shrink-0" />
                               ) : securityScore >= 65 ? (
-                                <Shield className="h-5 w-5 mr-2 text-yellow-400" />
+                                <Shield className="h-5 w-5 mr-2 text-yellow-400 shrink-0" />
                               ) : securityScore >= 50 ? (
-                                <Shield className="h-5 w-5 mr-2 text-orange-400" />
+                                <Shield className="h-5 w-5 mr-2 text-orange-400 shrink-0" />
                               ) : (
-                                <ShieldAlert className="h-5 w-5 mr-2 text-red-400" />
+                                <ShieldAlert className="h-5 w-5 mr-2 text-red-400 shrink-0" />
                               )}
                               <div>
                                 <AlertTitle className={cn(
@@ -800,7 +809,7 @@ const TokenScanner = () => {
                                    securityScore >= 50 ? "High Risk Score" : 
                                    "Critical Risk Score"}
                                 </AlertTitle>
-                                <AlertDescription className="text-gray-300">
+                                <AlertDescription className="text-gray-300 text-sm">
                                   {securityScore >= 80 ? 
                                     "This token appears to be safe based on our security analysis." : 
                                     securityScore >= 65 ? 
@@ -815,13 +824,13 @@ const TokenScanner = () => {
                         </div>
                         
                         {/* Security Analysis */}
-                        <div className="bg-bscdark p-6 rounded-xl border border-bscdark-lighter">
-                          <h3 className="text-xl font-medium mb-4">Security Analysis</h3>
+                        <div className="bg-bscdark p-4 md:p-6 rounded-xl border border-bscdark-lighter">
+                          <h3 className="text-lg md:text-xl font-medium mb-4">Security Analysis</h3>
                           
                           <div className="space-y-4">
                             {/* Risk Indicators */}
                             <div>
-                              <h4 className="text-base font-medium mb-2 flex items-center">
+                              <h4 className="text-sm md:text-base font-medium mb-2 flex items-center">
                                 <Shield className="w-4 h-4 mr-2 text-bscamber" />
                                 Risk Indicators
                               </h4>
@@ -834,7 +843,7 @@ const TokenScanner = () => {
                                       riskLevel === 'medium' && "bg-yellow-400",
                                       riskLevel === 'high' && "bg-red-400",
                                     )}></span>
-                                    <span className="text-sm">{risk}</span>
+                                    <span className="text-xs md:text-sm">{risk}</span>
                                   </li>
                                 ))}
                               </ul>
@@ -843,7 +852,7 @@ const TokenScanner = () => {
                             {/* Security Features */}
                             {(riskLevel === 'low' || riskLevel === 'medium') && (
                               <div>
-                                <h4 className="text-base font-medium mb-2 flex items-center">
+                                <h4 className="text-sm md:text-base font-medium mb-2 flex items-center">
                                   <ShieldCheck className="w-4 h-4 mr-2 text-green-400" />
                                   Security Features
                                 </h4>
@@ -851,7 +860,7 @@ const TokenScanner = () => {
                                   {getBenefits().map((benefit, index) => (
                                     <li key={`benefit-${index}`} className="flex items-start bg-green-950/30 p-2 rounded-md">
                                       <CircleCheck className="w-4 h-4 mr-2 text-green-400 shrink-0" />
-                                      <span className="text-sm">{benefit}</span>
+                                      <span className="text-xs md:text-sm">{benefit}</span>
                                     </li>
                                   ))}
                                 </ul>
@@ -860,17 +869,17 @@ const TokenScanner = () => {
                             
                             {/* Contract Information */}
                             <div>
-                              <h4 className="text-base font-medium mb-2">Contract Information</h4>
+                              <h4 className="text-sm md:text-base font-medium mb-2">Contract Information</h4>
                               <div className="space-y-2">
-                                <div className="flex justify-between text-sm bg-bscdark-lighter p-2 rounded-md">
+                                <div className="flex justify-between text-xs md:text-sm bg-bscdark-lighter p-2 rounded-md">
                                   <span className="text-gray-400">Contract Type:</span>
                                   <span>BEP-20</span>
                                 </div>
-                                <div className="flex justify-between text-sm bg-bscdark-lighter p-2 rounded-md">
+                                <div className="flex justify-between text-xs md:text-sm bg-bscdark-lighter p-2 rounded-md">
                                   <span className="text-gray-400">Compiler Version:</span>
                                   <span>v0.8.17</span>
                                 </div>
-                                <div className="flex justify-between text-sm bg-bscdark-lighter p-2 rounded-md">
+                                <div className="flex justify-between text-xs md:text-sm bg-bscdark-lighter p-2 rounded-md">
                                   <span className="text-gray-400">Verification Status:</span>
                                   <span className={riskLevel === 'low' ? "text-green-400" : "text-yellow-400"}>
                                     {riskLevel === 'low' ? "Verified" : "Partially Verified"}
@@ -884,8 +893,8 @@ const TokenScanner = () => {
                       
                       <div className="mt-4 flex justify-center">
                         <Button
-                          onClick={() => setShowDashboard(false)}
-                          className="bg-bscamber hover:bg-bscamber-light text-black"
+                          onClick={handleDialogClose}
+                          className="bg-bscamber hover:bg-bscamber-light text-black text-sm md:text-base"
                         >
                           Return to Token Scanner
                         </Button>

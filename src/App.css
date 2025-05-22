@@ -2,11 +2,18 @@
 #root {
   max-width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
+  overflow-x: hidden;
 }
 
 @media (min-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
   #root {
     padding: 2rem;
   }
@@ -46,4 +53,12 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Improve mobile dialog interaction */
+@media (max-width: 640px) {
+  [data-radix-popper-content-wrapper] {
+    max-width: 95vw !important;
+    transform: none !important;
+  }
 }
