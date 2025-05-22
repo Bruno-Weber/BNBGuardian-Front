@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -174,8 +175,9 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={`ripple-${i}`}
-            className="absolute rounded-full border border-bscamber-light/30 mix-blend-overlay"
+            className="absolute rounded-full border mix-blend-overlay"
             style={{
+              borderColor: `rgba(var(--${colorClasses.light}-rgb),0.3)`,
               width: `${(i + 1) * 20}%`,
               height: `${(i + 1) * 20}%`,
               top: `${50 - (i + 1) * 10 + Math.sin(Date.now() * 0.001 + i) * 3}%`,
@@ -199,7 +201,7 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
               transform: `translateY(${disruption > 0.6 ? Math.sin(i * 500) * 8 : 0}px) scaleX(${1 + Math.sin(Date.now() * 0.001 + i) * 0.15})`,
               opacity: disruption > 0.5 ? 0.6 : 0.2,
               filter: `blur(${disruption > 0.8 ? 1 : 0}px)`,
-              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%)',
+              background: `linear-gradient(90deg, transparent 0%, rgba(var(--${colorClasses.main}-rgb),0.6) 50%, transparent 100%)`,
               borderRadius: '50%',
             }}
           />
@@ -215,7 +217,7 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
               width: `${10 + Math.sin(Date.now() * 0.001 + i) * 5}%`,
               height: '90%',
               borderRadius: '50%',
-              borderLeft: disruption > 0.4 ? '1px solid rgba(255, 255, 255, 0.5)' : 'none',
+              borderLeft: disruption > 0.4 ? `1px solid rgba(var(--${colorClasses.light}-rgb), 0.5)` : 'none',
               transform: `translateX(${disruption > 0.6 ? Math.sin(i * 500) * 8 : 0}px) rotate(${i * 5 + Math.sin(Date.now() * 0.001) * 5}deg)`,
               opacity: disruption > 0.4 ? 0.5 : 0.2,
               display: disruption > 0.4 ? 'block' : 'none',
@@ -226,8 +228,9 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={`pulse-${i}`}
-            className="absolute rounded-full bg-bscamber/60 z-10"
+            className="absolute rounded-full z-10"
             style={{
+              backgroundColor: `rgba(var(--${colorClasses.main}-rgb),0.6)`,
               top: `${Math.random() * 70 + 15}%`,
               left: `${Math.random() * 70 + 15}%`,
               width: `${8 + Math.random() * 15}%`,
@@ -274,19 +277,19 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         </div>
       </div>
       
+      {/* Outer rings that follow the sphere movement */}
       {Array.from({ length: 3 }).map((_, i) => (
         <div
           key={`ring-${i}`}
-          className={cn(
-            'absolute border border-bscamber-light/30 rounded-full',
-          )}
+          className="absolute rounded-full"
           style={{
+            border: `1px solid rgba(var(--${colorClasses.light}-rgb),0.3)`,
             top: `${50 - (i + 1) * 10 + Math.sin(Date.now() * 0.0005 + i) * 4}%`,
             left: `${50 - (i + 1) * 10 + Math.cos(Date.now() * 0.0005 + i) * 4}%`,
             width: `${(i + 1) * 20 + Math.sin(Date.now() * 0.001 + i) * 4}%`,
             height: `${(i + 1) * 20 + Math.cos(Date.now() * 0.001 + i) * 4}%`,
             opacity: 0.2 + (disruption * 0.3),
-            transform: `rotate(${i * 30 + Date.now() * 0.01}deg) scale(${1 + disruption * 0.15})`,
+            transform: `rotate(${i * 30 + Date.now() * 0.01}deg) scale(${1 + disruption * 0.15}) translate(${liquidDeform.x * 0.25}px, ${liquidDeform.y * 0.25}px)`,
             display: disruption < 0.3 && i === 2 ? 'none' : 'block',
             borderRadius: '50%',
             transition: 'width 0.5s ease, height 0.5s ease',
@@ -294,10 +297,11 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         >
           {disruption > 0.6 && (
             <span 
-              className="absolute bg-bscamber/80 rounded-full"
+              className="absolute rounded-full"
               style={{
                 width: '12px',
                 height: '12px',
+                backgroundColor: `rgba(var(--${colorClasses.main}-rgb),0.8)`,
                 top: `${Math.sin(Date.now() * 0.001) * 50 + 50}%`,
                 left: 0,
                 transform: 'translateY(-50%)',
@@ -308,38 +312,43 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         </div>
       ))}
       
+      {/* Particles that follow the sphere */}
       {Array.from({ length: 12 }).map((_, i) => (
         <div
           key={`particle-${i}`}
-          className="absolute bg-bscamber rounded-full z-20"
+          className="absolute rounded-full z-20"
           style={{
+            backgroundColor: `rgba(var(--${colorClasses.main}-rgb),1)`,
             width: `${1.5 + Math.random() * 2.5}px`,
             height: `${1.5 + Math.random() * 2.5}px`,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            boxShadow: '0 0 3px rgba(243, 186, 47, 0.8)',
+            boxShadow: `0 0 3px rgba(var(--${colorClasses.main}-rgb), 0.8)`,
             opacity: 0.6 + (disruption * 0.4),
             animation: `float-particle ${1.5 + Math.random() * 2}s ease-in-out infinite alternate`,
             animationDelay: `${i * 0.3}s`,
             filter: 'blur(0.5px)',
+            transform: `translate(${liquidDeform.x * 0.15 * (i % 3 - 1)}px, ${liquidDeform.y * 0.15 * (i % 3 - 1)}px)`,
           }}
         />
       ))}
       
+      {/* Data streams that follow sphere movement */}
       {disruption > 0.5 && (
         <div className="absolute inset-0 overflow-hidden rounded-full">
           {Array.from({ length: 5 }).map((_, i) => (
             <div
               key={`stream-${i}`}
-              className="absolute bg-bscamber-light/70 rounded-full"
+              className="absolute rounded-full"
               style={{
+                backgroundColor: `rgba(var(--${colorClasses.light}-rgb),0.7)`,
                 height: '3px',
                 top: `${20 + Math.random() * 60}%`,
                 left: '-10%',
                 width: `${30 + 15 * disruption}%`,
                 opacity: 0.7,
                 filter: 'blur(1px)',
-                transform: `rotate(${3 + Math.sin(Date.now() * 0.001 + i) * 5}deg)`,
+                transform: `rotate(${3 + Math.sin(Date.now() * 0.001 + i) * 5}deg) translate(${liquidDeform.x * 0.2}px, ${liquidDeform.y * 0.2}px)`,
                 animation: `data-flow ${0.8 + Math.random() * 0.5}s linear infinite`,
                 animationDelay: `${i * 0.2}s`,
                 borderRadius: '50%',
@@ -349,16 +358,18 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         </div>
       )}
       
+      {/* Droplets that follow movement */}
       {disruption > 0.6 && Array.from({ length: 4 }).map((_, i) => (
         <div
           key={`droplet-${i}`}
-          className="absolute bg-bscamber/70 rounded-full z-30"
+          className="absolute rounded-full z-30"
           style={{
+            backgroundColor: `rgba(var(--${colorClasses.main}-rgb),0.7)`,
             width: `${5 + Math.random() * 5}px`,
             height: `${5 + Math.random() * 5}px`,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            transform: `scale(${1 + Math.sin(Date.now() * 0.001 + i) * 0.3})`,
+            transform: `scale(${1 + Math.sin(Date.now() * 0.001 + i) * 0.3}) translate(${liquidDeform.x * 0.3 * (i % 2 ? 1 : -1)}px, ${liquidDeform.y * 0.3 * (i % 2 ? -1 : 1)}px)`,
             filter: 'blur(1px)',
             opacity: Math.random() > 0.6 ? 0.9 : 0,
             transition: 'opacity 0.3s ease-in-out',
@@ -366,24 +377,29 @@ const HackedSphere: React.FC<HackedSphereProps> = ({
         />
       ))}
       
+      {/* Glow effect that follows sphere */}
       {disruption > 0.8 && (
         <div
-          className="absolute inset-0 bg-bscamber/20 z-30 mix-blend-screen rounded-full overflow-hidden"
+          className="absolute inset-0 mix-blend-screen rounded-full overflow-hidden"
           style={{
+            backgroundColor: `rgba(var(--${colorClasses.main}-rgb),0.2)`,
             maskImage: 'radial-gradient(circle, black 0%, black 90%, transparent 100%)',
             opacity: (disruption - 0.8) * 5,
             animation: 'pulse-slow 0.5s ease-in-out infinite alternate',
+            transform: `translate(${liquidDeform.x * 0.4}px, ${liquidDeform.y * 0.4}px)`,
             borderRadius: `${50 + Math.sin(liquidDeform.x * 0.6) * 10}% ${50 + Math.cos(liquidDeform.y * 0.6) * 10}% ${50 + Math.sin((liquidDeform.x + liquidDeform.y) * 0.6) * 10}% ${50 + Math.cos((liquidDeform.x - liquidDeform.y) * 0.6) * 10}%`,
           }}
         />
       )}
       
+      {/* Outer glow that follows sphere movement */}
       <div 
-        className={`absolute -z-10 bg-gradient-radial from-${colorClasses.main}/15 via-${colorClasses.main}/5 to-transparent opacity-50 rounded-full`}
+        className="absolute -z-10 rounded-full"
         style={{
+          background: `radial-gradient(circle, rgba(var(--${colorClasses.main}-rgb),0.15) 0%, rgba(var(--${colorClasses.main}-rgb),0.05) 50%, transparent 80%)`,
           inset: '-20%',
           filter: `blur(${5 + Math.sin(Date.now() * 0.0005) * 4}px)`,
-          transform: `scale(${1 + Math.sin(Date.now() * 0.0005) * 0.08})`,
+          transform: `scale(${1 + Math.sin(Date.now() * 0.0005) * 0.08}) translate(${liquidDeform.x * 0.6}px, ${liquidDeform.y * 0.6}px)`,
         }}
       />
     </div>
