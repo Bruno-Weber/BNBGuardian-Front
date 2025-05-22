@@ -12,7 +12,7 @@ type HeroSectionProps = {
 
 const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
   return (
-    <section className="relative min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-20 px-4">
+    <section className="relative min-h-[calc(100vh-80px)] flex flex-col items-center justify-center py-10 md:py-20 px-4">
       <div className="hexagon-grid"></div>
       
       {/* Hero visual component with subtle animation */}
@@ -47,7 +47,7 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
           }}
         >
           <motion.h1 
-            className="text-4xl md:text-6xl font-bold mb-6 leading-tight max-w-4xl mx-auto"
+            className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight max-w-4xl mx-auto"
             variants={{
               hidden: { opacity: 0 },
               visible: { opacity: 1 }
@@ -60,7 +60,7 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
           </motion.h1>
           
           <motion.p 
-            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto"
+            className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 md:mb-12 max-w-3xl mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -68,7 +68,7 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
             Paste any token address and discover the main risks before interacting with it.
           </motion.p>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -78,7 +78,7 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
                 size="lg"
                 onClick={scrollToScanner}
                 className={cn(
-                  "text-lg px-8 py-6 bg-bscamber hover:bg-bscamber-light text-black font-medium",
+                  "text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 bg-bscamber hover:bg-bscamber-light text-black font-medium w-full sm:w-auto",
                   "transition-all duration-300 shadow-lg hover:shadow-bscamber/20 hover:shadow-xl"
                 )}
               >
@@ -93,7 +93,7 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="text-lg px-8 py-6 border-bscamber text-bscamber hover:bg-bscamber/10"
+                className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 border-bscamber text-bscamber hover:bg-bscamber/10 w-full sm:w-auto"
               >
                 Learn more
               </Button>

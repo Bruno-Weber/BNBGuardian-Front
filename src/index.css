@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -55,6 +56,7 @@
   body {
     @apply bg-bscdark text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -351,5 +353,20 @@
   .hextech-glow {
     filter: drop-shadow(0 0 10px rgba(243, 186, 47, 0.5));
     animation: quantum-pulse 3s infinite alternate;
+  }
+
+  /* Mobile-specific adjustments */
+  @media (max-width: 640px) {
+    .hexagon-grid {
+      background-size: 40px 40px;
+    }
+    
+    .perspective-container {
+      perspective: 500px;
+    }
+    
+    .orbital-ring {
+      display: none;
+    }
   }
 }
