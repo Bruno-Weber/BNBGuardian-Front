@@ -14,6 +14,22 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 
 type RiskLevel = 'low' | 'medium' | 'high' | null;
 
+// Define the risk level color mapping based on security score
+export const getRiskLevelFromScore = (score: number): RiskLevel => {
+  if (score >= 80) return 'low';  // Green
+  if (score >= 65) return 'medium'; // Yellow
+  if (score >= 50) return 'high'; // Orange
+  return 'high'; // Red (even more critical, but we use high risk level for this)
+};
+
+// Get the color name based on security score for visual feedback
+export const getRiskColorName = (score: number): string => {
+  if (score >= 80) return 'green';
+  if (score >= 65) return 'yellow';
+  if (score >= 50) return 'orange';
+  return 'red';
+};
+
 const TokenScanner = () => {
   const [tokenAddress, setTokenAddress] = useState('');
   const [isScanning, setIsScanning] = useState(false);
@@ -113,6 +129,7 @@ const TokenScanner = () => {
     setScanProgress(0);
     setScanPhase('Starting security analysis...');
     setShowDashboard(false);
+    setSecurityScore(0);
     
     // Simulate scanning phases
     const scanPhases = [
@@ -161,9 +178,13 @@ const TokenScanner = () => {
   // Calculate security score based on risk level
   const calculateSecurityScore = (risk: RiskLevel): number => {
     switch(risk) {
-      case 'low': return Math.floor(Math.random() * 15) + 85; // 85-100
-      case 'medium': return Math.floor(Math.random() * 30) + 50; // 50-80
-      case 'high': return Math.floor(Math.random() * 45) + 5; // 5-50
+      case 'low': return Math.floor(Math.random() * 15) + 85; // 85-100 (changed from 85 to 80 for color threshold)
+      case 'medium': return Math.floor(Math.random() * 15) + 65; // 65-80 (updated ranges to match color thresholds)
+      case 'high': 
+        // For high risk, we'll have two ranges - orange (50-65) and red (<50)
+        return Math.random() < 0.5 ? 
+          Math.floor(Math.random() * 15) + 50 : // 50-65 for orange
+          Math.floor(Math.random() * 50); // 0-49 for red
       default: return 50;
     }
   };
@@ -411,6 +432,7 @@ const TokenScanner = () => {
                     className="mb-4 cursor-pointer"
                     isActive={isHovering}
                     onClick={handleScan}
+                    securityScore={securityScore}
                   />
                   <p className="text-center text-sm text-bscamber">
                     Quantum AI Scanner - <span className="text-gray-400">Click to analyze</span>
@@ -547,6 +569,7 @@ const TokenScanner = () => {
                       onClick={handleScan}
                       isActive={isHovering}
                       className="mx-auto mb-6"
+                      securityScore={securityScore}
                     />
                     
                     <p className="text-gray-300 max-w-xs relative z-10 mt-6">
@@ -603,6 +626,7 @@ const TokenScanner = () => {
                             size="lg" 
                             intensity="high"
                             className="mx-auto perspective-hover"
+                            securityScore={securityScore}
                           />
                           
                           {/* Scan status - Updated text colors */}
@@ -650,6 +674,7 @@ const TokenScanner = () => {
                       <HackedSphere 
                         size="lg"
                         intensity={riskLevel === 'low' ? 'low' : riskLevel === 'medium' ? 'medium' : 'high'}
+                        securityScore={securityScore}
                       />
                     </div>
                     

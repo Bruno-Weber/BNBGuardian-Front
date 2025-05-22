@@ -8,6 +8,7 @@ interface QuantumCoreProps {
   pulseIntensity?: 'low' | 'medium' | 'high';
   size?: 'sm' | 'md' | 'lg';
   isActive?: boolean;
+  colorTheme?: string;
 }
 
 const QuantumCore: React.FC<QuantumCoreProps> = ({
@@ -16,6 +17,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
   pulseIntensity = 'medium',
   size = 'md',
   isActive = false,
+  colorTheme = 'bscamber', // Default theme is bscamber
 }) => {
   const coreRef = useRef<HTMLDivElement>(null);
   const anomalyRef = useRef<HTMLDivElement>(null);
@@ -52,6 +54,78 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
     };
   }, []);
   
+  // Color theme mapping
+  const getGradientColors = () => {
+    switch(colorTheme) {
+      case 'green':
+        return {
+          from: 'from-green-400/60',
+          via: 'via-green-500/80',
+          to: 'to-green-600/70',
+          shadow: 'shadow-[0_0_25px_rgba(74,222,128,0.6)]',
+          innerGlow: 'bg-green-400/40',
+          energyColor: 'bg-gradient-to-r from-green-500/70 to-green-400/50',
+          mainBg: 'bg-gradient-to-br from-green-400/60 via-green-500/80 to-green-600/70',
+          fragBg: 'bg-gradient-to-r from-green-400/30 via-green-500/40 to-green-600/30',
+          coreBg: 'bg-gradient-to-br from-green-400/80 via-green-500/90 to-green-600/80',
+          coreShadow: 'shadow-[0_0_20px_rgba(74,222,128,0.5)]'
+        };
+      case 'yellow':
+        return {
+          from: 'from-yellow-400/60',
+          via: 'via-yellow-500/80',
+          to: 'to-yellow-600/70',
+          shadow: 'shadow-[0_0_25px_rgba(250,204,21,0.6)]',
+          innerGlow: 'bg-yellow-400/40',
+          energyColor: 'bg-gradient-to-r from-yellow-500/70 to-yellow-400/50',
+          mainBg: 'bg-gradient-to-br from-yellow-400/60 via-yellow-500/80 to-yellow-600/70',
+          fragBg: 'bg-gradient-to-r from-yellow-400/30 via-yellow-500/40 to-yellow-600/30',
+          coreBg: 'bg-gradient-to-br from-yellow-400/80 via-yellow-500/90 to-yellow-600/80',
+          coreShadow: 'shadow-[0_0_20px_rgba(250,204,21,0.5)]'
+        };
+      case 'orange':
+        return {
+          from: 'from-orange-400/60',
+          via: 'via-orange-500/80',
+          to: 'to-orange-600/70',
+          shadow: 'shadow-[0_0_25px_rgba(251,146,60,0.6)]',
+          innerGlow: 'bg-orange-400/40',
+          energyColor: 'bg-gradient-to-r from-orange-500/70 to-orange-400/50',
+          mainBg: 'bg-gradient-to-br from-orange-400/60 via-orange-500/80 to-orange-600/70',
+          fragBg: 'bg-gradient-to-r from-orange-400/30 via-orange-500/40 to-orange-600/30',
+          coreBg: 'bg-gradient-to-br from-orange-400/80 via-orange-500/90 to-orange-600/80',
+          coreShadow: 'shadow-[0_0_20px_rgba(251,146,60,0.5)]'
+        };
+      case 'red':
+        return {
+          from: 'from-red-400/60',
+          via: 'via-red-500/80',
+          to: 'to-red-600/70',
+          shadow: 'shadow-[0_0_25px_rgba(239,68,68,0.6)]',
+          innerGlow: 'bg-red-400/40',
+          energyColor: 'bg-gradient-to-r from-red-500/70 to-red-400/50',
+          mainBg: 'bg-gradient-to-br from-red-400/60 via-red-500/80 to-red-600/70',
+          fragBg: 'bg-gradient-to-r from-red-400/30 via-red-500/40 to-red-600/30',
+          coreBg: 'bg-gradient-to-br from-red-400/80 via-red-500/90 to-red-600/80',
+          coreShadow: 'shadow-[0_0_20px_rgba(239,68,68,0.5)]'
+        };
+      default: // bscamber (default)
+        return {
+          from: 'from-bscamber-light/60',
+          via: 'via-bscamber/80',
+          to: 'to-bscamber-dark/70',
+          shadow: 'shadow-[0_0_25px_rgba(243,186,47,0.6)]',
+          innerGlow: 'bg-bscamber-light/40',
+          energyColor: 'bg-gradient-to-r from-bscamber/70 to-bscamber-light/50',
+          mainBg: 'bg-gradient-to-br from-bscamber-light/60 via-bscamber/80 to-bscamber-dark/70',
+          fragBg: 'bg-gradient-to-r from-bscamber-light/30 via-bscamber/40 to-bscamber-dark/30',
+          coreBg: 'bg-gradient-to-br from-bscamber-light/80 via-bscamber/90 to-bscamber-dark/80',
+          coreShadow: 'shadow-[0_0_20px_rgba(243,186,47,0.5)]'
+        };
+    }
+  };
+  
+  const colors = getGradientColors();
   const sizeClasses = {
     sm: 'w-24 h-24',
     md: 'w-32 h-32',
@@ -83,8 +157,8 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
         <div 
           className={cn(
             'absolute w-full h-full',
-            'bg-gradient-to-br from-bscamber-light/60 via-bscamber/80 to-bscamber-dark/70',
-            'shadow-[0_0_25px_rgba(243,186,47,0.6)]',
+            colors.mainBg,
+            colors.shadow,
             pulseClasses[pulseIntensity]
           )}
           style={{
@@ -93,7 +167,10 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
           }}
         >
           {/* Inner glow */}
-          <div className="absolute w-4/5 h-4/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-bscamber-light/40 blur-md"
+          <div className={cn(
+            "absolute w-4/5 h-4/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 blur-md",
+            colors.innerGlow
+          )}
             style={{
               clipPath: 'polygon(50% 10%, 70% 30%, 85% 65%, 65% 90%, 35% 90%, 15% 65%, 30% 30%)',
             }}
@@ -109,7 +186,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
             key={`fragment-${index}`}
             className={cn(
               'absolute',
-              'bg-gradient-to-r from-bscamber-light/30 via-bscamber/40 to-bscamber-dark/30',
+              colors.fragBg,
               'filter blur-[2px]',
               pulseClasses[pulseIntensity]
             )}
@@ -142,8 +219,8 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
         ref={coreRef}
         className={cn(
           'absolute z-10 transform-gpu',
-          'bg-gradient-to-br from-bscamber-light/80 via-bscamber/90 to-bscamber-dark/80',
-          'shadow-[0_0_20px_rgba(243,186,47,0.5)]',
+          colors.coreBg,
+          colors.coreShadow,
           pulseClasses[pulseIntensity]
         )}
         style={{
@@ -164,7 +241,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
           key={`tendril-${index}`}
           className={cn(
             'absolute z-30',
-            'bg-gradient-to-r from-bscamber/70 to-bscamber-light/50',
+            colors.energyColor,
             'filter blur-[1px]',
             pulseClasses[pulseIntensity]
           )}
@@ -209,7 +286,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
           }}
         >
           <div 
-            className="absolute bg-bscamber/70 rounded-full"
+            className="absolute rounded-full"
             style={{
               width: '3px',
               height: '3px',
@@ -217,13 +294,25 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
               left: '50%',
               transform: 'translateX(-50%)',
               boxShadow: '0 0 6px rgba(243, 186, 47, 0.6)',
+              background: colorTheme === 'bscamber' ? '#f3ba2f' : 
+                         colorTheme === 'green' ? '#4ade80' : 
+                         colorTheme === 'yellow' ? '#facc15' : 
+                         colorTheme === 'orange' ? '#fb923c' : 
+                         '#ef4444'
             }}
           />
         </div>
       ))}
       
       {/* Background glow - reduced intensity */}
-      <div className="absolute inset-[-20%] -z-10 bg-gradient-radial from-bscamber/15 via-bscamber/4 to-transparent opacity-60"></div>
+      <div className={cn(
+        "absolute inset-[-20%] -z-10 opacity-60",
+        colorTheme === 'bscamber' ? 'bg-gradient-radial from-bscamber/15 via-bscamber/4 to-transparent' :
+        colorTheme === 'green' ? 'bg-gradient-radial from-green-400/15 via-green-500/4 to-transparent' :
+        colorTheme === 'yellow' ? 'bg-gradient-radial from-yellow-400/15 via-yellow-500/4 to-transparent' :
+        colorTheme === 'orange' ? 'bg-gradient-radial from-orange-400/15 via-orange-500/4 to-transparent' :
+        'bg-gradient-radial from-red-400/15 via-red-500/4 to-transparent'
+      )}></div>
     </div>
   );
 };
