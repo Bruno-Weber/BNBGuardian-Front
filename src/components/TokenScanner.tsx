@@ -555,7 +555,7 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
-                {/* Scanning state */}
+                {/* Scanning state - Updated text color to improve visibility */}
                 {isScanning && (
                   <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
                     {/* Code analysis visualization with matrix background visible behind */}
@@ -605,10 +605,10 @@ const TokenScanner = () => {
                             className="mx-auto perspective-hover"
                           />
                           
-                          {/* Scan status */}
+                          {/* Scan status - Updated text colors */}
                           <div className="absolute bottom-[-40px] w-full text-center">
-                            <div className="text-bscamber text-lg font-medium mb-1">{scanPhase}</div>
-                            <div className="text-sm text-bscamber/70 mb-2">{scanProgress}% complete</div>
+                            <div className="text-white font-bold text-lg mb-1">{scanPhase}</div>
+                            <div className="text-gray-200 text-sm mb-2">{scanProgress}% complete</div>
                             <div className="h-1.5 w-32 bg-bscdark-lighter rounded-full overflow-hidden mx-auto">
                               <div 
                                 className="h-full bg-gradient-to-r from-bscamber/70 via-bscamber to-bscamber/70 transition-all duration-300" 
