@@ -7,7 +7,6 @@ import { Shield, CircleAlert, CircleCheck, Lock, Scan, ShieldCheck, ShieldAlert 
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import HackedSphere from './HackedSphere';
-import QuantumCore from './QuantumCore';
 import MatrixRain from './ui/matrix-code';
 import { Badge } from './ui/badge';
 import { Alert, AlertTitle, AlertDescription } from './ui/alert';
@@ -169,7 +168,7 @@ const TokenScanner = () => {
     }
   };
 
-  // Get the appropriate color for the spheres based on score
+  // Get the appropriate color for the HackedSphere based on score
   const getSphereColor = () => {
     if (securityScore >= 80) return 'green'; // Verde (baixo risco)
     if (securityScore >= 65) return 'yellow'; // Amarelo (risco moderado)
@@ -412,15 +411,14 @@ const TokenScanner = () => {
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Left side - Input form */}
               <div className="p-6 border-r border-bscdark-lighter">
-                {/* QuantumCore element above the form - Updated to use the same color as HackedSphere */}
+                {/* Hacked Sphere element above the form */}
                 <div className="flex flex-col items-center justify-center mb-8">
-                  <QuantumCore 
+                  <HackedSphere 
                     size="md" 
-                    pulseIntensity="medium"
+                    intensity="medium"
                     className="mb-4 cursor-pointer"
                     isActive={isHovering}
                     onClick={handleScan}
-                    color={scanComplete ? getSphereColor() : 'amber'}
                   />
                   <p className="text-center text-sm text-bscamber">
                     Quantum AI Scanner - <span className="text-gray-400">Click to analyze</span>
@@ -565,7 +563,7 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
-                {/* Scanning state - Updated HackedSphere */}
+                {/* Scanning state - Updated with colored HackedSphere */}
                 {isScanning && (
                   <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
                     {/* Code analysis visualization with matrix background visible behind */}
