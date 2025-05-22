@@ -168,6 +168,14 @@ const TokenScanner = () => {
     }
   };
 
+  // Get the appropriate color for the HackedSphere based on score
+  const getSphereColor = () => {
+    if (securityScore >= 80) return 'green'; // Verde (baixo risco)
+    if (securityScore >= 65) return 'yellow'; // Amarelo (risco moderado)
+    if (securityScore >= 50) return 'orange'; // Laranja (risco alto)
+    return 'red'; // Vermelho (risco crítico)
+  };
+
   const getRiskColor = () => {
     if (riskLevel === 'low') return 'text-risk-low';
     if (riskLevel === 'medium') return 'text-risk-medium';
@@ -555,7 +563,7 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
-                {/* Scanning state - Updated text color to improve visibility */}
+                {/* Scanning state - Updated with colored HackedSphere */}
                 {isScanning && (
                   <div className="z-10 w-full h-full flex flex-col items-center justify-center relative">
                     {/* Code analysis visualization with matrix background visible behind */}
@@ -605,7 +613,7 @@ const TokenScanner = () => {
                             className="mx-auto perspective-hover"
                           />
                           
-                          {/* Scan status - Updated text colors */}
+                          {/* Scan status - with improved visibility */}
                           <div className="absolute bottom-[-40px] w-full text-center">
                             <div className="text-white font-bold text-lg mb-1">{scanPhase}</div>
                             <div className="text-gray-200 text-sm mb-2">{scanProgress}% complete</div>
@@ -638,7 +646,7 @@ const TokenScanner = () => {
                   </div>
                 )}
                 
-                {/* Results state - Enhanced with better visual feedback */}
+                {/* Results state with colored HackedSphere based on score */}
                 {scanComplete && !showDashboard && (
                   <div className="z-10 w-full max-w-md text-center">
                     <div className={cn(
@@ -650,6 +658,12 @@ const TokenScanner = () => {
                       <HackedSphere 
                         size="lg"
                         intensity={riskLevel === 'low' ? 'low' : riskLevel === 'medium' ? 'medium' : 'high'}
+                        className={cn(
+                          securityScore >= 80 && "text-green-400",
+                          securityScore >= 65 && securityScore < 80 && "text-yellow-400",
+                          securityScore >= 50 && securityScore < 65 && "text-orange-400",
+                          securityScore < 50 && "text-red-400"
+                        )}
                       />
                     </div>
                     
@@ -705,13 +719,14 @@ const TokenScanner = () => {
                       </DialogHeader>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Security Score Card */}
+                        {/* Security Score Card with colored HackedSphere */}
                         <div className="bg-bscdark p-6 rounded-xl border border-bscdark-lighter">
                           <div className="flex items-center justify-between mb-4">
                             <h3 className="text-xl font-medium">Security Score</h3>
                             <Badge className={cn(
-                              securityScore >= 85 && "bg-green-500/20 text-green-400 border-green-500/30",
-                              securityScore >= 50 && securityScore < 85 && "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                              securityScore >= 80 && "bg-green-500/20 text-green-400 border-green-500/30",
+                              securityScore >= 65 && securityScore < 80 && "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+                              securityScore >= 50 && securityScore < 65 && "bg-orange-500/20 text-orange-400 border-orange-500/30",
                               securityScore < 50 && "bg-red-500/20 text-red-400 border-red-500/30"
                             )}>
                               {getScoreDescription()}
@@ -730,14 +745,27 @@ const TokenScanner = () => {
                                 <circle 
                                   cx="50" cy="50" r="45" 
                                   fill="transparent" 
-                                  stroke={securityScore >= 85 ? "#4ade80" : securityScore >= 50 ? "#facc15" : "#ef4444"} 
+                                  stroke={
+                                    securityScore >= 80 ? "#4ade80" : 
+                                    securityScore >= 65 ? "#facc15" : 
+                                    securityScore >= 50 ? "#f97316" : 
+                                    "#ef4444"
+                                  }
                                   strokeWidth="8" 
                                   strokeDasharray={`${2 * Math.PI * 45 * securityScore / 100} ${2 * Math.PI * 45}`} 
                                   className="transition-all duration-1000 ease-out"
                                 />
                               </svg>
                               <div className="absolute flex flex-col items-center justify-center">
-                                <span className={`text-4xl font-bold ${getScoreClass()}`}>{securityScore}</span>
+                                <span className={cn(
+                                  "text-4xl font-bold",
+                                  securityScore >= 80 && "text-green-400",
+                                  securityScore >= 65 && securityScore < 80 && "text-yellow-400",
+                                  securityScore >= 50 && securityScore < 65 && "text-orange-400",
+                                  securityScore < 50 && "text-red-400"
+                                )}>
+                                  {securityScore}
+                                </span>
                                 <span className="text-sm text-gray-400">out of 100</span>
                               </div>
                             </div>
@@ -745,34 +773,41 @@ const TokenScanner = () => {
                           
                           <Alert className={cn(
                             "border mb-4",
-                            securityScore >= 85 && "border-green-500/30 bg-green-500/10",
-                            securityScore >= 50 && securityScore < 85 && "border-yellow-500/30 bg-yellow-500/10",
+                            securityScore >= 80 && "border-green-500/30 bg-green-500/10",
+                            securityScore >= 65 && securityScore < 80 && "border-yellow-500/30 bg-yellow-500/10",
+                            securityScore >= 50 && securityScore < 65 && "border-orange-500/30 bg-orange-500/10",
                             securityScore < 50 && "border-red-500/30 bg-red-500/10"
                           )}>
                             <div className="flex items-start">
-                              {securityScore >= 85 ? (
+                              {securityScore >= 80 ? (
                                 <ShieldCheck className="h-5 w-5 mr-2 text-green-400" />
-                              ) : securityScore >= 50 ? (
+                              ) : securityScore >= 65 ? (
                                 <Shield className="h-5 w-5 mr-2 text-yellow-400" />
+                              ) : securityScore >= 50 ? (
+                                <Shield className="h-5 w-5 mr-2 text-orange-400" />
                               ) : (
                                 <ShieldAlert className="h-5 w-5 mr-2 text-red-400" />
                               )}
                               <div>
                                 <AlertTitle className={cn(
-                                  securityScore >= 85 && "text-green-400",
-                                  securityScore >= 50 && securityScore < 85 && "text-yellow-400",
+                                  securityScore >= 80 && "text-green-400",
+                                  securityScore >= 65 && securityScore < 80 && "text-yellow-400",
+                                  securityScore >= 50 && securityScore < 65 && "text-orange-400",
                                   securityScore < 50 && "text-red-400"
                                 )}>
-                                  {securityScore >= 85 ? "High Security Score" : 
-                                   securityScore >= 50 ? "Moderate Security Score" : 
-                                   "Low Security Score"}
+                                  {securityScore >= 80 ? "High Security Score" : 
+                                   securityScore >= 65 ? "Moderate Security Score" : 
+                                   securityScore >= 50 ? "High Risk Score" : 
+                                   "Critical Risk Score"}
                                 </AlertTitle>
                                 <AlertDescription className="text-gray-300">
-                                  {securityScore >= 85 ? 
+                                  {securityScore >= 80 ? 
                                     "This token appears to be safe based on our security analysis." : 
-                                    securityScore >= 50 ? 
+                                    securityScore >= 65 ? 
                                     "This token has some security concerns you should be aware of." : 
-                                    "This token has significant security risks. Proceed with caution."}
+                                    securityScore >= 50 ?
+                                    "This token has significant security risks. Proceed with caution." :
+                                    "This token has critical security vulnerabilities. Not recommended."}
                                 </AlertDescription>
                               </div>
                             </div>
