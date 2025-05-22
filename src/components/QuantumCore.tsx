@@ -8,6 +8,7 @@ interface QuantumCoreProps {
   pulseIntensity?: 'low' | 'medium' | 'high';
   size?: 'sm' | 'md' | 'lg';
   isActive?: boolean;
+  color?: 'green' | 'yellow' | 'orange' | 'red' | 'amber'; // Added color prop
 }
 
 const QuantumCore: React.FC<QuantumCoreProps> = ({
@@ -16,6 +17,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
   pulseIntensity = 'medium',
   size = 'md',
   isActive = false,
+  color = 'amber', // Default amber color
 }) => {
   const coreRef = useRef<HTMLDivElement>(null);
   const anomalyRef = useRef<HTMLDivElement>(null);
@@ -63,6 +65,54 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
     medium: 'animate-[pulse_2.5s_ease-in-out_infinite]',
     high: 'animate-[pulse_1.7s_ease-in-out_infinite]',
   };
+
+  // Get the color classes based on the provided color prop
+  const getColorClasses = () => {
+    switch(color) {
+      case 'green':
+        return {
+          gradient: 'from-green-300/60 via-green-500/80 to-green-700/70',
+          light: 'green-300',
+          main: 'green-500',
+          dark: 'green-700',
+          shadow: 'rgba(34, 197, 94, 0.6)', // green-500 shadow
+        };
+      case 'yellow':
+        return {
+          gradient: 'from-yellow-300/60 via-yellow-500/80 to-yellow-700/70',
+          light: 'yellow-300',
+          main: 'yellow-500',
+          dark: 'yellow-700',
+          shadow: 'rgba(234, 179, 8, 0.6)', // yellow-500 shadow
+        };
+      case 'orange':
+        return {
+          gradient: 'from-orange-300/60 via-orange-500/80 to-orange-700/70',
+          light: 'orange-300',
+          main: 'orange-500',
+          dark: 'orange-700',
+          shadow: 'rgba(249, 115, 22, 0.6)', // orange-500 shadow
+        };
+      case 'red':
+        return {
+          gradient: 'from-red-300/60 via-red-500/80 to-red-700/70',
+          light: 'red-300',
+          main: 'red-500',
+          dark: 'red-700',
+          shadow: 'rgba(239, 68, 68, 0.6)', // red-500 shadow
+        };
+      default: // amber is default
+        return {
+          gradient: 'from-bscamber-light/60 via-bscamber/80 to-bscamber-dark/70',
+          light: 'bscamber-light',
+          main: 'bscamber',
+          dark: 'bscamber-dark',
+          shadow: 'rgba(243, 186, 47, 0.6)', // bscamber shadow
+        };
+    }
+  };
+
+  const colorClasses = getColorClasses();
   
   return (
     <div 
@@ -83,17 +133,18 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
         <div 
           className={cn(
             'absolute w-full h-full',
-            'bg-gradient-to-br from-bscamber-light/60 via-bscamber/80 to-bscamber-dark/70',
-            'shadow-[0_0_25px_rgba(243,186,47,0.6)]',
+            `bg-gradient-to-br ${colorClasses.gradient}`,
             pulseClasses[pulseIntensity]
           )}
           style={{
             clipPath: 'polygon(50% 0, 75% 28%, 95% 65%, 70% 100%, 30% 100%, 5% 65%, 25% 28%)',
             transform: 'rotate(0deg)',
+            boxShadow: `0 0 25px ${colorClasses.shadow}`,
           }}
         >
           {/* Inner glow */}
-          <div className="absolute w-4/5 h-4/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-bscamber-light/40 blur-md"
+          <div 
+            className={`absolute w-4/5 h-4/5 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-${colorClasses.light}/40 blur-md`}
             style={{
               clipPath: 'polygon(50% 10%, 70% 30%, 85% 65%, 65% 90%, 35% 90%, 15% 65%, 30% 30%)',
             }}
@@ -109,7 +160,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
             key={`fragment-${index}`}
             className={cn(
               'absolute',
-              'bg-gradient-to-r from-bscamber-light/30 via-bscamber/40 to-bscamber-dark/30',
+              `bg-gradient-to-r from-${colorClasses.light}/30 via-${colorClasses.main}/40 to-${colorClasses.dark}/30`,
               'filter blur-[2px]',
               pulseClasses[pulseIntensity]
             )}
@@ -142,8 +193,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
         ref={coreRef}
         className={cn(
           'absolute z-10 transform-gpu',
-          'bg-gradient-to-br from-bscamber-light/80 via-bscamber/90 to-bscamber-dark/80',
-          'shadow-[0_0_20px_rgba(243,186,47,0.5)]',
+          `bg-gradient-to-br ${colorClasses.gradient}`,
           pulseClasses[pulseIntensity]
         )}
         style={{
@@ -152,6 +202,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
           left: '22.5%',
           top: '22.5%',
           clipPath: 'polygon(50% 0, 100% 30%, 100% 70%, 50% 100%, 0 70%, 0 30%)',
+          boxShadow: `0 0 20px ${colorClasses.shadow}`,
         }}
       >
         {/* Inner energy */}
@@ -164,7 +215,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
           key={`tendril-${index}`}
           className={cn(
             'absolute z-30',
-            'bg-gradient-to-r from-bscamber/70 to-bscamber-light/50',
+            `bg-gradient-to-r from-${colorClasses.main}/70 to-${colorClasses.light}/50`,
             'filter blur-[1px]',
             pulseClasses[pulseIntensity]
           )}
@@ -175,7 +226,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
             left: `${50 + Math.cos(index * 60 * (Math.PI / 180)) * 40}%`,
             transformOrigin: 'left center',
             transform: `rotate(${index * 60}deg)`,
-            boxShadow: '0 0 6px rgba(243, 186, 47, 0.6)',
+            boxShadow: `0 0 6px ${colorClasses.shadow}`,
             animation: `pulse ${1.5 + Math.random() * 2}s infinite alternate`,
             animationDelay: `${index * 0.3}s`,
           }}
@@ -192,7 +243,7 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
             height: `${1 + Math.random() * 1.5}px`,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            boxShadow: '0 0 3px rgba(255, 255, 255, 0.7), 0 0 6px rgba(243, 186, 47, 0.5)',
+            boxShadow: `0 0 3px rgba(255, 255, 255, 0.7), 0 0 6px ${colorClasses.shadow}`,
             animation: `float-particle ${2.5 + Math.random() * 2.5}s ease-in-out infinite alternate`,
             animationDelay: `${index * 0.2}s`,
           }}
@@ -209,21 +260,23 @@ const QuantumCore: React.FC<QuantumCoreProps> = ({
           }}
         >
           <div 
-            className="absolute bg-bscamber/70 rounded-full"
+            className={`absolute bg-${colorClasses.main}/70 rounded-full`}
             style={{
               width: '3px',
               height: '3px',
               top: `${10 + index * 5}%`,
               left: '50%',
               transform: 'translateX(-50%)',
-              boxShadow: '0 0 6px rgba(243, 186, 47, 0.6)',
+              boxShadow: `0 0 6px ${colorClasses.shadow}`,
             }}
           />
         </div>
       ))}
       
       {/* Background glow - reduced intensity */}
-      <div className="absolute inset-[-20%] -z-10 bg-gradient-radial from-bscamber/15 via-bscamber/4 to-transparent opacity-60"></div>
+      <div 
+        className={`absolute inset-[-20%] -z-10 bg-gradient-radial from-${colorClasses.main}/15 via-${colorClasses.main}/4 to-transparent opacity-60`}
+      ></div>
     </div>
   );
 };
