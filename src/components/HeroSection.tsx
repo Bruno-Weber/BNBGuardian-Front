@@ -57,7 +57,7 @@ const HeroSection = ({ scrollToScanner }: HeroSectionProps) => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mb-8 flex justify-center"
           >
-            <HackedSphere size="xl" intensity="medium" className="cursor-pointer" />
+            <HackedSphere size="lg" intensity="medium" className="cursor-pointer" />
           </motion.div>
 
           {/* Main heading */}
