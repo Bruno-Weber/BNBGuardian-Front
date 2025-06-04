@@ -100,8 +100,9 @@ const HeroSection = ({
             duration: 0.6,
             delay: 0.9
           }}>
-              <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 border-bscamber text-bscamber hover:bg-bscamber/10 w-full sm:w-auto">Whitepaper
-            </Button>
+              <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 border-bscamber text-bscamber hover:bg-bscamber/10 w-full sm:w-auto" onClick={() => window.open('/docs/whitepaper.pdf', '_blank')}>
+                Whitepaper
+              </Button>
             </motion.div>
           </div>
         </motion.div>
