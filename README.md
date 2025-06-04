@@ -1,73 +1,17 @@
-# Welcome to your Lovable project
+🛡️ BNBGuard – Front-End
+O BNBGuard é uma aplicação web desenvolvida para promover a segurança e a transparência no ecossistema da BNB Chain. Seu objetivo principal é fornecer aos usuários informações detalhadas sobre tokens da BNB, facilitando a identificação de projetos confiáveis e alertando sobre possíveis riscos.
 
-## Project info
+🔍 Funcionalidades Principais
+Pesquisa de Tokens
+Permite aos usuários buscar tokens específicos na BSC, exibindo informações relevantes como nome, símbolo, endereço do contrato e outras métricas essenciais.
+Análise de Segurança: Apresenta uma avaliação de segurança para cada token, destacando aspectos como auditorias realizadas, presença de selos de confiança e outras certificações que indicam a legitimidade do projeto.
+Interface Intuitiva: Com um design limpo e responsivo, o site oferece uma experiência de usuário amigável, adaptando-se a diferentes dispositivos e tamanhos de tela.
+Integração com APIs: Utiliza APIs confiáveis para obter dados atualizados sobre os tokens, garantindo que as informações apresentadas sejam precisas e em tempo real.
+Download do Whitepaper: Disponibiliza o whitepaper do projeto em formato PDF para download, permitindo que os usuários compreendam profundamente a missão, visão e detalhes técnicos do BNB Guardian.
 
-**URL**: https://lovable.dev/projects/8333b321-0880-4ec1-ba27-944fa6842402
+🧰 Tecnologias Utilizadas
+Framework: React.js para construção da interface de usuário.
+Hospedagem: Vercel para deploy contínuo e hospedagem do front-end.
+Consumo de APIs: Integração com APIs externas para coleta de dados sobre tokens e suas características de segurança.
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/8333b321-0880-4ec1-ba27-944fa6842402) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/8333b321-0880-4ec1-ba27-944fa6842402) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Este front-end serve como a porta de entrada para o BNBGuard, oferecendo aos usuários uma ferramenta eficaz para avaliar a segurança de tokens na BNB Chain. Com informações claras e acessíveis, busca-se empoderar os investidores e promover um ambiente mais seguro no universo das criptomoedas
